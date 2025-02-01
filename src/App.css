@@ -1,0 +1,175 @@
+/* Общие стили */
+body {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  overflow: hidden;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, #ffebee, #ffccbc, #ffe0b2, #ff80ab);
+  background-size: 300% 300%;
+  animation: backgroundAnimation 7s infinite ease-in-out;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Анимация градиента */
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  70% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.app-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Карточка приглашения */
+.invitation-container {
+  margin: auto 16px auto 16px;
+  /*margin: auto;*/
+  background: white;
+  padding: 30px;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  position: relative;
+  z-index: 2;
+  border: 4px solid #ff4081;
+  animation: popIn 1s ease-out;
+}
+@media only screen and (max-width: 340px) {
+  .invitation-container {
+    padding: 12px;
+  }
+}
+
+/* Анимация появления */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+h1 {
+  color: #d32f2f;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 18px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.welcome-text {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #ff4081;
+}
+
+.date, .location {
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.ending-text {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* Кнопка */
+.rsvp-button {
+  background-color: #ff4081;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s, transform 0.2s;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 280px;
+}
+
+.rsvp-button:hover {
+  background-color: #e91e63;
+  transform: scale(1.05);
+}
+.rsvp-button.accept {
+  background-color: #1ee947;
+}
+.rsvp-button.reject {
+  background-color: #e91e1e;
+}
+
+
+/* Конфетти */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.confetti {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: -10px;
+  opacity: 0.8;
+  border-radius: 50%;
+  animation: fall 2s linear infinite;
+}
+
+/* Разные анимации падения */
+.confetti:nth-child(odd) {
+  animation-duration: 3s;
+}
+
+.confetti:nth-child(even) {
+  animation-duration: 5s;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
