@@ -43,6 +43,10 @@ body {
 
 /* Карточка приглашения */
 .invitation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   margin: auto 16px auto 16px;
   /*margin: auto;*/
   background: white;
@@ -107,6 +111,10 @@ p {
 
 /* Кнопка */
 .rsvp-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #ff4081;
   color: white;
   border: none;
