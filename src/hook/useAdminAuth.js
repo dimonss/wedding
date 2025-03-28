@@ -11,6 +11,7 @@ const useAdminAuth = () => {
     const password = queryParams.get('password');
     if (username && password) {
       setIsAdmin(true);
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
   
