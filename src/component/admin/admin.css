@@ -76,6 +76,7 @@
     align-items: flex-end;
 
     h5 {
+        text-align: left;
         white-space: break-spaces;
         margin: 8px 0;
     }

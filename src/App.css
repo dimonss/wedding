@@ -1,14 +1,16 @@
 /* General styles */
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Viaoda+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Viaoda+Libre&display=swap');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Viaoda Libre', serif;
+  font-family: 'Inter Tight', serif;
   text-align: center;
   min-height: 100vh;
-  background: #fff;
-  color: #1a2a1a;
+  background: #FFF7F1;
+  color: #2d5a27;
+
 }
 
 #root {
@@ -25,34 +27,43 @@ body {
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  background: url('../public/image.jpg') no-repeat center center;
   background-size: cover;
 }
 
 /* Invitation Card */
 .invitation-container {
-  background: rgba(255, 255, 255, 0.95);
   padding: 40px;
-  max-width: 600px;
+  max-width: 1024px;
   width: 100%;
   margin: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   position: relative;
   box-sizing: border-box;
 }
 
 .header-text {
+  display: flex;
+  justify-content: space-between;
+  white-space: break-spaces;
+  text-align: left;
   margin-bottom: 30px;
-  font-size: 16px;
   color: #4a4a4a;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .date-time, .guest-arrival {
   margin: 5px 0;
 }
 
+.container__image{
+  height: 720px;
+  background: url('../public/image.jpg') no-repeat center center;
+
+}
+
 .title {
+  font-family: 'Viaoda Libre', serif;
   font-size: 32px;
   color: #1a2a1a;
   margin: 30px 0;
@@ -63,14 +74,25 @@ body {
 
 .names {
   margin: 40px 0;
+  white-space: pre-wrap;
+}
+.names__first {
+  display: inline-block;
 }
 
 .names h2 {
-  font-size: 48px;
+  font-family: 'Viaoda Libre', serif;
+  font-size: 146px;
   font-weight: 400;
   color: #1a2a1a;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1;
+}
+.names h2 > b {
+  padding-top: 32px;
+}
+.names h2:last-child {
+  padding-left: 176px;
 }
 
 .guest-name {
@@ -96,19 +118,24 @@ body {
 .rsvp-buttons {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   margin: 30px 0;
 }
 
 .rsvp-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 30px;
   font-size: 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-family: 'Viaoda Libre', serif;
+  font-family: 'TT Travels', serif;
   transition: all 0.3s ease;
   min-width: 180px;
+  margin: 0 auto;
 }
 
 .rsvp-button.accept {
@@ -117,8 +144,9 @@ body {
 }
 
 .rsvp-button.reject {
-  background-color: #8B0000;
-  color: white;
+  border: 1px #2d5a27 solid;
+  color: #2d5a27;
+  background-color: #FFF7F1;
 }
 
 .rsvp-button:hover {
@@ -152,11 +180,6 @@ body {
   font-style: italic;
   color: #666;
   font-size: 18px;
-}
-.map{
-  img{
-    max-width: 100%;
-  }
 }
 
 /* Admin Panel Styles */
