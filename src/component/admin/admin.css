@@ -79,6 +79,7 @@
         text-align: left;
         white-space: break-spaces;
         margin: 8px 0;
+        cursor: pointer;
     }
 
     h1 {
