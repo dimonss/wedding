@@ -55,9 +55,12 @@ function App() {
                             <h1 className="title">СВАДЬБА<br/>И РЕГИСТРАЦИЯ</h1>
                             <h5>{'где и как \nпроехать'}</h5>
                         </div>
+                        <div className="header__mobile">
+                            <h1 className="title">СВАДЬБА И РЕГИСТРАЦИЯ</h1>
+                        </div>
                         <div className="container__image">
                             <div className="names">
-                                <h2>Дмитрия <b>&</b></h2>
+                                <h2>Дмитрия &</h2>
                                 <h2>{"Екатерины"}</h2>
                             </div>
                             <div className="header-text">
@@ -103,7 +106,7 @@ function App() {
                             <iframe
                                 title="map"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.071531346306!2d74.70194022969577!3d42.80614583558391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb341e2128787%3A0x3ad083a24f096c54!2sBishkek%20Golf%20Club!5e0!3m2!1sen!2skg!4v1745081385779!5m2!1sen!2skg"
-                                width="420" height="300" style={{border: 0, borderRadius: '16px'}} allowFullScreen="" loading="lazy"
+                                width="420" height="300" style={{border: 0, borderRadius: '16px', maxWidth: "100%"}} allowFullScreen="" loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div className="footer-text">
