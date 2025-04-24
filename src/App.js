@@ -73,11 +73,11 @@ function App() {
                         </div>
                         <div className="invitation-text">
                             <p>Мы, Дмитрий и Екатерина,<br/>
-                                с радостью приглашаем вас<br/>
+                                с радостью приглашаем Вас<br/>
                                 на наше свадебное<br/>
                                 торжество!</p>
                         </div>
-                        <p className="special-day">Будем рады видеть вас в этот особенный день!</p>
+                        <p className="special-day">Будем рады видеть Вас в этот особенный день!</p>
                         <div className="rsvp-buttons">
                             <div className="rsvp-buttons__container">
                                 <button
@@ -94,7 +94,7 @@ function App() {
                                 </button>
                             </div>
                         </div>
-                        <div className="venue-details" id={'date'}>
+                        <div className="venue-details" id="date">
                             <h3>📅 Дата и время:</h3>
                             <p>14-го июня 2025 года</p>
                             <h3>📍 Место, как проехать:</h3>
@@ -102,7 +102,7 @@ function App() {
                             <p>ул. Фрунзе, 1 с. Кара-Джыгач,</p>
                             <p>Аламудунский район, Чуйская область</p>
                         </div>
-                        <div className="map" id={'map'}>
+                        <div className="map" id="map">
                             <iframe
                                 title="map"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.071531346306!2d74.70194022969577!3d42.80614583558391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb341e2128787%3A0x3ad083a24f096c54!2sBishkek%20Golf%20Club!5e0!3m2!1sen!2skg!4v1745081385779!5m2!1sen!2skg"
