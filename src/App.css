@@ -1,19 +1,19 @@
 /* General styles */
 
 @font-face {
-  font-family: 'TT Travels';
-  src: url('../public/fonts/TTTravels/TTTravels-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+    font-family: 'TT Travels';
+    src: url('../public/fonts/TTTravels/TTTravels-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'TT Travels';
-  src: url('../public/fonts/TTTravels/TTTravels-DemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
+    font-family: 'TT Travels';
+    src: url('../public/fonts/TTTravels/TTTravels-DemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -98,8 +98,6 @@ body {
 
 .names {
     margin: 120px 0 40px 0;
-    font-size: 146px;
-    line-height: 1;
 }
 
 .names__first {
@@ -193,10 +191,9 @@ body {
 }
 
 .venue-details h3 {
-    margin: 20px 0 10px;
+    margin: 144px 0 10px;
     font-size: 24px;
     font-weight: 400;
-    margin-top: 144px;
 }
 
 .venue-details h3:first-child {
@@ -265,7 +262,7 @@ body {
 
     .header__mobile h1 {
         display: block;
-        font-size: 24px!important;
+        font-size: 22px;
         font-weight: 400;
     }
 
@@ -275,7 +272,10 @@ body {
     }
 
     .names {
-        margin: 44px 0 40px 0;
+        margin: 44px 0 260px 0;
+    }
+
+    .names h2 {
         font-size: 50px;
 
     }
@@ -284,14 +284,46 @@ body {
         padding-left: 60px;
     }
 
+    .header-text {
+        font-size: 22px;
+    }
+
+    .guest-name {
+        font-size: 24px;
+    }
+
+    .container__image {
+        height: 310px;
+        margin-bottom: 190px;
+    }
+
+    .invitation-text {
+        font-size: 24px;
+    }
+
+    .venue-details h3 {
+        font-size: 20px;
+        margin-top: 96px;
+    }
+
+    .venue-details p {
+        font-size: 24px;
+    }
+
+    .venue-details p:last-child {
+        font-size: 16px;
+    }
+
     .rsvp-buttons {
         align-items: center;
         width: 100%;
+        margin-bottom: 96px;
     }
 
     .rsvp-buttons__container {
         flex-direction: column;
         width: 100%;
+        margin-top: 96px;
     }
 
 
@@ -301,6 +333,11 @@ body {
         font-size: 20px;
         padding: 16px;
     }
+
+    .footer-text {
+        font-size: 20px;
+        margin-top: 96px;
+    }
 }
 
 /* Loading and Error States */
@@ -308,6 +345,11 @@ body {
     color: #8B0000;
     font-size: 18px;
     padding: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #0C3813;
 }
 
 /* Loader component styles remain unchanged */
