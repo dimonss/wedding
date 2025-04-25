@@ -186,7 +186,6 @@ body {
 
 .rsvp-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Venue Details */
@@ -242,6 +241,26 @@ body {
 
 .admin-title {
     margin: 0;
+}
+.calendar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #0C3813;
+    color: white;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 16px;
+    margin: 48px auto;
+    max-width: 330px;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.calendar-button:hover {
+    transform: translateY(-2px);
 }
 
 /* Responsive Design */
@@ -341,6 +360,13 @@ body {
     .footer-text {
         font-size: 20px;
         margin-top: 96px;
+    }
+
+    .calendar-button {
+        font-size: 16px;
+    }
+    .special-day {
+        font-size: 20px;
     }
 }
 
