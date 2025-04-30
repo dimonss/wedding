@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import "./App.css";
-import useConfetti from "./hook/useConfetti";
 import useGuestData from "./hook/useGuestData";
 import useAcceptGuest from "./hook/useAcceptGuest";
 import useRejectGuest from "./hook/useRejectGuest";
@@ -12,7 +11,6 @@ function App() {
     const [firstRender, setFirstRender] = useState(true);
     const [respStatus, setRespStatus] = useState(null);
     const {isAdmin, guestList, guestListError, guestListLoading} = useAdminAuth();
-    useConfetti(isAdmin);
     let guestUUID = window.location.pathname.split('/').pop();
     guestUUID = guestUUID?.length === 36 ? guestUUID : null;
 
