@@ -1,24 +1,22 @@
 import {useState, useEffect} from 'react';
-import {API_BASE_URL} from '../constant/constant';
-
-const STORAGE_KEY = 'wedding_admin_credentials';
+import {API_BASE_URL, STORAGE_KEY} from '../constant/constant';
 
 const useGuestList = () => {
     const [guestList, setGuestList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+
     const getCredentials = () => {
         const queryParams = new URLSearchParams(window.location.search);
         const username = queryParams.get('username');
         const password = queryParams.get('password');
-        
+
         if (username && password) {
             // Save credentials to localStorage
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ username, password }));
-            return { username, password };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({username, password}));
+            return {username, password};
         }
-        
+
         // Try to get credentials from localStorage
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
@@ -29,7 +27,7 @@ const useGuestList = () => {
                 return null;
             }
         }
-        
+
         return null;
     };
 
@@ -59,7 +57,7 @@ const useGuestList = () => {
         fetchGuestList();
     }, []);
 
-    return {guestList, loading, error, fetchGuestList};
+    return {guestList, loading, error, refreshGuestList: fetchGuestList};
 };
 
 export default useGuestList;

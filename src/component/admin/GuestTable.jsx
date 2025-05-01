@@ -9,7 +9,7 @@ const DEFAULT_VALUES = {
     pending: 0
 }
 
-const GuestTable = ({guestList, loading, error}) => {
+const GuestTable = ({guestList, loading, error, onRefresh}) => {
     const stats = useMemo(() => (guestList ? {
             total: guestList.length,
             approved: guestList.filter(guest => guest.respStatus === 1).length,
@@ -23,6 +23,16 @@ const GuestTable = ({guestList, loading, error}) => {
 
     return (
         <div className="guest-table-container">
+            <div className="admin-header">
+                <h2>Guest List</h2>
+                <button 
+                    className="refresh-button"
+                    onClick={onRefresh}
+                    disabled={loading}
+                >
+                    {loading ? 'Refreshing...' : 'Refresh Data'}
+                </button>
+            </div>
             <div className="stats-summary">
                 <div className="stat-item">
                     <span className="stat-label">Total:</span>

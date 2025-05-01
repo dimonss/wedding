@@ -10,7 +10,7 @@ import GuestTable from "./component/admin/GuestTable";
 function App() {
     const [firstRender, setFirstRender] = useState(true);
     const [respStatus, setRespStatus] = useState(null);
-    const {isAdmin, guestList, guestListError, guestListLoading} = useAdminAuth();
+    const {isAdmin, guestList, guestListError, guestListLoading, refreshGuestList} = useAdminAuth();
     let guestUUID = window.location.pathname.split('/').pop();
     guestUUID = guestUUID?.length === 36 ? guestUUID : null;
 
@@ -38,6 +38,7 @@ function App() {
                         guestList={guestList}
                         loading={guestListLoading}
                         error={guestListError}
+                        onRefresh={refreshGuestList}
                     />
                 </div>
             </div>
