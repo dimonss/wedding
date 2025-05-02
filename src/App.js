@@ -3,14 +3,14 @@ import "./App.css";
 import useGuestData from "./hook/useGuestData";
 import useAcceptGuest from "./hook/useAcceptGuest";
 import useRejectGuest from "./hook/useRejectGuest";
-import useAdminAuth from "./hook/useAdminAuth";
+import useAdminCredentials from "./hook/useAdminCredentials";
 import Loader from "./component/loader/Loader";
 import GuestTable from "./component/admin/GuestTable";
 
 function App() {
     const [firstRender, setFirstRender] = useState(true);
     const [respStatus, setRespStatus] = useState(null);
-    const {isAdmin, guestList, guestListError, guestListLoading, refreshGuestList} = useAdminAuth();
+    const { isAdmin, credentials } = useAdminCredentials();
     let guestUUID = window.location.pathname.split('/').pop();
     guestUUID = guestUUID?.length === 36 ? guestUUID : null;
 
@@ -27,19 +27,14 @@ function App() {
         }
     }, [acceptLoading, rejectLoading, fetchGuestData, firstRender]);
     // Render admin view if authenticated
-    if (isAdmin) {
+    if (isAdmin && !guestUUID) {
         return (
             <div className="app-container admin-mode">
                 <div className="admin-panel">
                     <div className="admin-header">
                         <h1 className="admin-title">Wedding Admin Panel</h1>
                     </div>
-                    <GuestTable
-                        guestList={guestList}
-                        loading={guestListLoading}
-                        error={guestListError}
-                        onRefresh={refreshGuestList}
-                    />
+                    <GuestTable credentials={credentials}/>
                 </div>
             </div>
         );

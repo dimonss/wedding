@@ -1,39 +1,13 @@
-import {useState, useEffect} from 'react';
-import {API_BASE_URL, STORAGE_KEY} from '../constant/constant';
+import {useState, useEffect, useCallback} from 'react';
+import {API_BASE_URL} from '../constant/constant';
 
-const useGuestList = () => {
+const useGuestList = (credentials) => {
     const [guestList, setGuestList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const getCredentials = () => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const username = queryParams.get('username');
-        const password = queryParams.get('password');
-
-        if (username && password) {
-            // Save credentials to localStorage
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({username, password}));
-            return {username, password};
-        }
-
-        // Try to get credentials from localStorage
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            try {
-                return JSON.parse(stored);
-            } catch (e) {
-                console.error('Failed to parse stored credentials:', e);
-                return null;
-            }
-        }
-
-        return null;
-    };
-
-    const fetchGuestList = async () => {
-        const credentials = getCredentials();
-        if (credentials) {
+    const fetchGuestList = useCallback(async () => {
+        if (credentials?.username && credentials?.password) {
             setLoading(true);
             const headers = new Headers();
             headers.set("Authorization", "Basic " + btoa(`${credentials.username}:${credentials.password}`));
@@ -51,13 +25,13 @@ const useGuestList = () => {
                 setLoading(false);
             }
         }
-    };
+    }, [credentials]);
 
     useEffect(() => {
         fetchGuestList();
     }, []);
 
-    return {guestList, loading, error, refreshGuestList: fetchGuestList};
+    return {guestList, loading, error, refetchGuestList: fetchGuestList};
 };
 
 export default useGuestList;

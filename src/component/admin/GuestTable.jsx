@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import './admin.css';
 import Loader from '../loader/Loader';
+import useGuestList from "../../hook/useGuestList";
 
 const DEFAULT_VALUES = {
     total: 0,
@@ -9,7 +10,8 @@ const DEFAULT_VALUES = {
     pending: 0
 }
 
-const GuestTable = ({guestList, loading, error, onRefresh}) => {
+const GuestTable = ({credentials}) => {
+    const { guestList,loading, error, refetchGuestList } = useGuestList(credentials);
     const stats = useMemo(() => (guestList ? {
             total: guestList.length,
             approved: guestList.filter(guest => guest.respStatus === 1).length,
@@ -25,9 +27,9 @@ const GuestTable = ({guestList, loading, error, onRefresh}) => {
         <div className="guest-table-container">
             <div className="admin-header">
                 <h2>Guest List</h2>
-                <button 
+                <button
                     className="refresh-button"
-                    onClick={onRefresh}
+                    onClick={refetchGuestList}
                     disabled={loading}
                 >
                     {loading ? 'Refreshing...' : 'Refresh Data'}
