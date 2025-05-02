@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useCallback, useMemo} from 'react';
 import './admin.css';
 import Loader from '../loader/Loader';
 import useGuestList from "../../hook/useGuestList";
@@ -11,12 +11,15 @@ const DEFAULT_VALUES = {
 }
 
 const GuestTable = ({credentials}) => {
-    const { guestList,loading, error, refetchGuestList } = useGuestList(credentials);
+    const {guestList, loading, error, refetchGuestList} = useGuestList(credentials);
+    const navigate = useCallback((uuid) => {
+        window.location.href = window.location.pathname + "/" + uuid
+    }, []);
     const stats = useMemo(() => (guestList ? {
-            total: guestList.length,
-            approved: guestList.filter(guest => guest.respStatus === 1).length,
-            rejected: guestList.filter(guest => guest.respStatus === 0).length,
-            pending: guestList.filter(guest => guest.respStatus === null).length
+        total: guestList.length,
+        approved: guestList.filter(guest => guest.respStatus === 1).length,
+        rejected: guestList.filter(guest => guest.respStatus === 0).length,
+        pending: guestList.filter(guest => guest.respStatus === null).length
     } : DEFAULT_VALUES), [guestList]);
 
     if (loading) return <Loader/>;
@@ -65,7 +68,7 @@ const GuestTable = ({credentials}) => {
                 </thead>
                 <tbody>
                 {guestList.map((guest) => (
-                    <tr key={guest.uuid}>
+                    <tr key={guest.uuid} onClick={() => navigate(guest.uuid)}>
                         <td>{guest.fullName}</td>
                         <td className={`status ${guest.status}`}>
                             {guest.respStatus === null ? '⏳ Pending' :
