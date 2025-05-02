@@ -21,11 +21,15 @@ function App() {
         setRespStatus(guestData?.respStatus)
     }, [guestData]);
     useEffect(() => {
-        if (!acceptLoading && !rejectLoading) {
-            if (!firstRender) fetchGuestData();
-            else setFirstRender(false);
+        if (!acceptLoading && !rejectLoading && !firstRender) {
+            fetchGuestData();
         }
-    }, [acceptLoading, rejectLoading, fetchGuestData, firstRender]);
+    }, [acceptLoading, rejectLoading]);
+    useEffect(() => {
+        if (firstRender) {
+            setFirstRender(false);
+        }
+    }, [firstRender]);
     // Render admin view if authenticated
     if (isAdmin && !guestUUID) {
         return (
