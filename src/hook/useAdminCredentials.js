@@ -31,6 +31,12 @@ const useAdminCredentials = () => {
         return null;
     };
 
+    const logout = () => {
+        localStorage.removeItem(STORAGE_KEY);
+        setIsAdmin(false);
+        setCredentials(null);
+    };
+
     useEffect(() => {
         const checkAdminStatus = () => {
             const creds = getCredentials();
@@ -47,7 +53,7 @@ const useAdminCredentials = () => {
         checkAdminStatus();
     }, []);
 
-    return { isAdmin, credentials };
+    return { isAdmin, credentials, logout };
 };
 
 export default useAdminCredentials; 

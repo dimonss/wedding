@@ -10,7 +10,7 @@ import GuestTable from "./component/admin/GuestTable";
 function App() {
     const [firstRender, setFirstRender] = useState(true);
     const [respStatus, setRespStatus] = useState(null);
-    const { isAdmin, credentials } = useAdminCredentials();
+    const { isAdmin, credentials, logout } = useAdminCredentials();
     let guestUUID = window.location.pathname.split('/').pop();
     guestUUID = guestUUID?.length === 36 ? guestUUID : null;
 
@@ -34,7 +34,10 @@ function App() {
                     <div className="admin-header">
                         <h1 className="admin-title">Wedding Admin Panel</h1>
                     </div>
-                    <GuestTable credentials={credentials}/>
+                    <GuestTable 
+                        credentials={credentials}
+                        onLogout={logout}
+                    />
                 </div>
             </div>
         );

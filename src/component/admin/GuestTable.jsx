@@ -10,7 +10,7 @@ const DEFAULT_VALUES = {
     pending: 0
 }
 
-const GuestTable = ({credentials}) => {
+const GuestTable = ({credentials, onLogout}) => {
     const {guestList, loading, error, refetchGuestList} = useGuestList(credentials);
     const navigate = useCallback((uuid) => {
         window.location.href = window.location.pathname + "/" + uuid
@@ -30,13 +30,21 @@ const GuestTable = ({credentials}) => {
         <div className="guest-table-container">
             <div className="admin-header">
                 <h2>Guest List</h2>
-                <button
-                    className="refresh-button"
-                    onClick={refetchGuestList}
-                    disabled={loading}
-                >
-                    {loading ? 'Refreshing...' : 'Refresh Data'}
-                </button>
+                <div className="admin-actions">
+                    <button
+                        className="refresh-button"
+                        onClick={refetchGuestList}
+                        disabled={loading}
+                    >
+                        {loading ? 'Refreshing...' : 'Refresh Data'}
+                    </button>
+                    <button
+                        className="logout-button"
+                        onClick={onLogout}
+                    >
+                        Logout
+                    </button>
+                </div>
             </div>
             <div className="stats-summary">
                 <div className="stat-item">
