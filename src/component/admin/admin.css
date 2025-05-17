@@ -192,6 +192,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 136px;
+    height: 36px;
+    justify-content: center;
 }
 
 .refresh-button:hover:not(:disabled) {
@@ -205,7 +208,7 @@
     opacity: 0.7;
 }
 
-.refresh-button::before {
+.refresh-button__icon::before {
     content: '↻';
     font-size: 16px;
 }

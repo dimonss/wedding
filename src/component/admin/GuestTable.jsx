@@ -22,7 +22,6 @@ const GuestTable = ({credentials, onLogout}) => {
         pending: guestList.filter(guest => guest.respStatus === null).length
     } : DEFAULT_VALUES), [guestList]);
 
-    if (loading) return <Loader/>;
     if (error) return <div className="error-message">Error: {error}</div>;
     if (!guestList || guestList.length === 0) return <div>No guests found</div>;
 
@@ -32,11 +31,11 @@ const GuestTable = ({credentials, onLogout}) => {
                 <h2>Guest List</h2>
                 <div className="admin-actions">
                     <button
-                        className="refresh-button"
+                        className={`refresh-button${loading ? "" : " refresh-button__icon"}`}
                         onClick={refetchGuestList}
                         disabled={loading}
                     >
-                        {loading ? 'Refreshing...' : 'Refresh Data'}
+                        {loading ? <Loader/> : 'Refresh Data'}
                     </button>
                     <button
                         className="logout-button"
