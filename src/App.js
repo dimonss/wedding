@@ -6,6 +6,7 @@ import useRejectGuest from "./hook/useRejectGuest";
 import useAdminCredentials from "./hook/useAdminCredentials";
 import Loader from "./component/loader/Loader";
 import GuestTable from "./component/admin/GuestTable";
+import LoginForm from "./component/loginForm/LoginForm";
 
 function App() {
     const [firstRender, setFirstRender] = useState(true);
@@ -30,6 +31,12 @@ function App() {
             setFirstRender(false);
         }
     }, [firstRender]);
+
+    // Show login form if not authenticated and no UUID
+    if (!isAdmin && !guestUUID) {
+        return <LoginForm />;
+    }
+
     // Render admin view if authenticated
     if (isAdmin && !guestUUID) {
         return (

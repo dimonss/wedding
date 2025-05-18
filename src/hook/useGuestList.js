@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback} from 'react';
-import {API_BASE_URL} from '../constant/constant';
+import {API_BASE_URL, STORAGE_KEY} from '../constant/constant';
 
 const useGuestList = (credentials) => {
     const [guestList, setGuestList] = useState([]);
@@ -14,7 +14,13 @@ const useGuestList = (credentials) => {
             try {
                 const response = await fetch(`${API_BASE_URL}/guests`, {headers});
                 if (!response.ok) {
-                    throw new Error('Failed to fetch guest list');
+                    console.log("response");
+                    console.log(response.status);
+                    if (response.status === 401) {
+                        localStorage.removeItem(STORAGE_KEY)
+                        window.location.reload()
+                        return
+                    }
                 }
                 const data = await response.json();
                 setGuestList(data?.data || []);
