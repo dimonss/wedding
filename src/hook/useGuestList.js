@@ -6,21 +6,27 @@ const useGuestList = (credentials) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const getHeaders = useCallback(() => {
+        const headers = new Headers();
+        headers.set("Authorization", "Basic " + btoa(`${credentials.username}:${credentials.password}`));
+        headers.set("Content-Type", "application/json");
+        return headers;
+    }, [credentials]);
+
     const fetchGuestList = useCallback(async () => {
         if (credentials?.username && credentials?.password) {
             setLoading(true);
-            const headers = new Headers();
-            headers.set("Authorization", "Basic " + btoa(`${credentials.username}:${credentials.password}`));
             try {
-                const response = await fetch(`${API_BASE_URL}/guests`, {headers});
+                const response = await fetch(`${API_BASE_URL}/guests`, {
+                    headers: getHeaders()
+                });
                 if (!response.ok) {
-                    console.log("response");
-                    console.log(response.status);
                     if (response.status === 401) {
-                        localStorage.removeItem(STORAGE_KEY)
-                        window.location.reload()
-                        return
+                        localStorage.removeItem(STORAGE_KEY);
+                        window.location.reload();
+                        return;
                     }
+                    throw new Error('Failed to fetch guest list');
                 }
                 const data = await response.json();
                 setGuestList(data?.data || []);
@@ -31,13 +37,86 @@ const useGuestList = (credentials) => {
                 setLoading(false);
             }
         }
-    }, [credentials]);
+    }, [credentials, getHeaders]);
+
+    const createGuest = async (guestData) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${API_BASE_URL}/guests`, {
+                method: 'POST',
+                headers: getHeaders(),
+                body: JSON.stringify(guestData)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create guest');
+            }
+            await fetchGuestList();
+            return true;
+        } catch (error) {
+            setError(error.message);
+            console.error('Error creating guest:', error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateGuest = async (guestId, guestData) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${API_BASE_URL}/guests/${guestId}`, {
+                method: 'PUT',
+                headers: getHeaders(),
+                body: JSON.stringify(guestData)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update guest');
+            }
+            await fetchGuestList();
+            return true;
+        } catch (error) {
+            setError(error.message);
+            console.error('Error updating guest:', error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const deleteGuest = async (guestId) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${API_BASE_URL}/guests/${guestId}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete guest');
+            }
+            await fetchGuestList();
+            return true;
+        } catch (error) {
+            setError(error.message);
+            console.error('Error deleting guest:', error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         fetchGuestList();
-    }, []);
+    }, [fetchGuestList]);
 
-    return {guestList, loading, error, refetchGuestList: fetchGuestList};
+    return {
+        guestList,
+        loading,
+        error,
+        createGuest,
+        updateGuest,
+        deleteGuest,
+        refetchGuestList: fetchGuestList
+    };
 };
 
 export default useGuestList;
