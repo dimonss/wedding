@@ -42,7 +42,7 @@ const useGuestList = (credentials) => {
     const createGuest = async (guestData) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/guests`, {
+            const response = await fetch(`${API_BASE_URL}/guest`, {
                 method: 'POST',
                 headers: getHeaders(),
                 body: JSON.stringify(guestData)
@@ -64,7 +64,7 @@ const useGuestList = (credentials) => {
     const updateGuest = async (guestId, guestData) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/guests/${guestId}`, {
+            const response = await fetch(`${API_BASE_URL}/guest/${guestId}`, {
                 method: 'PUT',
                 headers: getHeaders(),
                 body: JSON.stringify(guestData)
@@ -86,7 +86,7 @@ const useGuestList = (credentials) => {
     const deleteGuest = async (guestId) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/guests/${guestId}`, {
+            const response = await fetch(`${API_BASE_URL}/guest/${guestId}`, {
                 method: 'DELETE',
                 headers: getHeaders()
             });
