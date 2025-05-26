@@ -10,7 +10,7 @@ const DEFAULT_VALUES = {
     pending: 0
 }
 
-const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, guestName }) => {
+const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDeleting}) => {
     if (!isOpen) return null;
 
     return (
@@ -19,8 +19,19 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, guestName }) => {
                 <h3>Delete Guest</h3>
                 <p>Are you sure you want to delete {guestName}?</p>
                 <div className="modal-actions">
-                    <button className="modal-button confirm" onClick={onConfirm}>Yes</button>
-                    <button className="modal-button cancel" onClick={onClose}>No</button>
+                    <button
+                        className="modal-button confirm"
+                        onClick={onConfirm}
+                        disabled={isDeleting}
+                    >
+                        {isDeleting ? <Loader/> : 'Yes'}
+                    </button>
+                    <button
+                        className="modal-button cancel"
+                        onClick={onClose}
+                    >
+                        No
+                    </button>
                 </div>
             </div>
         </div>
@@ -31,6 +42,7 @@ const GuestTable = ({credentials, onLogout}) => {
     const {guestList, loading, error, refetchGuestList, deleteGuest} = useGuestList(credentials);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [guestToDelete, setGuestToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const navigate = useCallback((uuid) => {
         window.location.href = window.location.pathname + "/" + uuid
@@ -44,9 +56,14 @@ const GuestTable = ({credentials, onLogout}) => {
 
     const handleConfirmDelete = useCallback(async () => {
         if (guestToDelete) {
-            await deleteGuest(guestToDelete.uuid);
-            setDeleteModalOpen(false);
-            setGuestToDelete(null);
+            setIsDeleting(true);
+            try {
+                await deleteGuest(guestToDelete.uuid);
+                setDeleteModalOpen(false);
+                setGuestToDelete(null);
+            } finally {
+                setIsDeleting(false);
+            }
         }
     }, [guestToDelete, deleteGuest]);
 
@@ -67,6 +84,7 @@ const GuestTable = ({credentials, onLogout}) => {
                 onClose={() => setDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
                 guestName={guestToDelete?.fullName}
+                isDeleting={isDeleting}
             />
             <div className="admin-header">
                 <h2>Guest List</h2>
@@ -129,8 +147,9 @@ const GuestTable = ({credentials, onLogout}) => {
                             <button
                                 className="delete-button"
                                 onClick={(e) => handleDeleteClick(e, guest)}
+                                disabled={isDeleting}
                             >
-                                🗑️ Delete
+                                {isDeleting && guestToDelete?.uuid === guest.uuid ? <Loader/> : '🗑️ Delete'}
                             </button>
                         </td>
                     </tr>
