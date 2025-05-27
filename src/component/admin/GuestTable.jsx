@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import './admin.css';
 import Loader from '../loader/Loader';
 import useGuestList from "../../hook/useGuestList";
@@ -38,11 +38,114 @@ const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDelet
     );
 };
 
+const EditGuestModal = ({isOpen, onClose, guest, onUpdate, isUpdating}) => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        gender: '',
+        respStatus: ''
+    });
+
+    useEffect(() => {
+        if (guest) {
+            setFormData({
+                fullName: guest.fullName || '',
+                gender: guest.gender || '',
+                respStatus: guest.respStatus === null ? null : guest.respStatus ? '1' : '0'
+            });
+        }
+    }, [guest]);
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            ...formData,
+            respStatus: formData.respStatus === '' ? null : parseInt(formData.respStatus)
+        };
+        onUpdate(data);
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content edit-form">
+                <h3>Edit Guest</h3>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="fullName">Full Name</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="respStatus">Gender</label>
+                        <select
+                            id="gender"
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                        >
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="respStatus">Response Status</label>
+                        <select
+                            id="respStatus"
+                            name="respStatus"
+                            value={formData.respStatus}
+                            onChange={handleChange}
+                        >
+                            <option value="null">Pending</option>
+                            <option value="1">Attending</option>
+                            <option value="0">Not Attending</option>
+                        </select>
+                    </div>
+                    <div className="modal-actions">
+                        <button
+                            type="submit"
+                            className="modal-button confirm"
+                            disabled={isUpdating}
+                        >
+                            {isUpdating ? <Loader/> : 'Update'}
+                        </button>
+                        <button
+                            type="button"
+                            className="modal-button cancel"
+                            onClick={onClose}
+                            disabled={isUpdating}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
 const GuestTable = ({credentials, onLogout}) => {
-    const {guestList, loading, error, refetchGuestList, deleteGuest} = useGuestList(credentials);
+    const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest} = useGuestList(credentials);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
     const [guestToDelete, setGuestToDelete] = useState(null);
+    const [guestToEdit, setGuestToEdit] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const navigate = useCallback((uuid) => {
         window.location.href = window.location.pathname + "/" + uuid
@@ -52,6 +155,12 @@ const GuestTable = ({credentials, onLogout}) => {
         e.stopPropagation();
         setGuestToDelete(guest);
         setDeleteModalOpen(true);
+    }, []);
+
+    const handleEditClick = useCallback((e, guest) => {
+        e.stopPropagation();
+        setGuestToEdit(guest);
+        setEditModalOpen(true);
     }, []);
 
     const handleConfirmDelete = useCallback(async () => {
@@ -66,6 +175,19 @@ const GuestTable = ({credentials, onLogout}) => {
             }
         }
     }, [guestToDelete, deleteGuest]);
+
+    const handleUpdateGuest = useCallback(async (formData) => {
+        if (guestToEdit) {
+            setIsUpdating(true);
+            try {
+                await updateGuest(guestToEdit.uuid, formData);
+                setEditModalOpen(false);
+                setGuestToEdit(null);
+            } finally {
+                setIsUpdating(false);
+            }
+        }
+    }, [guestToEdit, updateGuest]);
 
     const stats = useMemo(() => (guestList ? {
         total: guestList.length,
@@ -85,6 +207,13 @@ const GuestTable = ({credentials, onLogout}) => {
                 onConfirm={handleConfirmDelete}
                 guestName={guestToDelete?.fullName}
                 isDeleting={isDeleting}
+            />
+            <EditGuestModal
+                isOpen={editModalOpen}
+                onClose={() => setEditModalOpen(false)}
+                guest={guestToEdit}
+                onUpdate={handleUpdateGuest}
+                isUpdating={isUpdating}
             />
             <div className="admin-header">
                 <h2>Guest List</h2>
@@ -143,7 +272,14 @@ const GuestTable = ({credentials, onLogout}) => {
                         </td>
                         <td>{guest.respDate}</td>
                         <td>{guest.uuid}</td>
-                        <td>
+                        <td className="actions-cell">
+                            <button
+                                className="edit-button"
+                                onClick={(e) => handleEditClick(e, guest)}
+                                disabled={isUpdating}
+                            >
+                                ✏️ Edit
+                            </button>
                             <button
                                 className="delete-button"
                                 onClick={(e) => handleDeleteClick(e, guest)}
