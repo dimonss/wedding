@@ -38,11 +38,11 @@ const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDelet
     );
 };
 
-const EditGuestModal = ({isOpen, onClose, guest, onUpdate, isUpdating}) => {
+const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 'create'}) => {
     const [formData, setFormData] = useState({
         fullName: '',
         gender: '',
-        respStatus: ''
+        respStatus: 'null'
     });
 
     useEffect(() => {
@@ -50,7 +50,13 @@ const EditGuestModal = ({isOpen, onClose, guest, onUpdate, isUpdating}) => {
             setFormData({
                 fullName: guest.fullName || '',
                 gender: guest.gender || '',
-                respStatus: guest.respStatus === null ? null : guest.respStatus ? '1' : '0'
+                respStatus: guest.respStatus === null ? 'null' : guest.respStatus ? '1' : '0'
+            });
+        } else {
+            setFormData({
+                fullName: '',
+                gender: '',
+                respStatus: 'null'
             });
         }
     }, [guest]);
@@ -67,107 +73,20 @@ const EditGuestModal = ({isOpen, onClose, guest, onUpdate, isUpdating}) => {
         e.preventDefault();
         const data = {
             ...formData,
-            respStatus: formData.respStatus === '' ? null : parseInt(formData.respStatus)
-        };
-        onUpdate(data);
-    };
-
-    if (!isOpen) return null;
-
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content edit-form">
-                <h3>Edit Guest</h3>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="fullName">Full Name</label>
-                        <input
-                            type="text"
-                            id="fullName"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="respStatus">Gender</label>
-                        <select
-                            id="gender"
-                            name="gender"
-                            value={formData.gender}
-                            onChange={handleChange}
-                        >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="respStatus">Response Status</label>
-                        <select
-                            id="respStatus"
-                            name="respStatus"
-                            value={formData.respStatus}
-                            onChange={handleChange}
-                        >
-                            <option value="null">Pending</option>
-                            <option value="1">Attending</option>
-                            <option value="0">Not Attending</option>
-                        </select>
-                    </div>
-                    <div className="modal-actions">
-                        <button
-                            type="submit"
-                            className="modal-button confirm"
-                            disabled={isUpdating}
-                        >
-                            {isUpdating ? <Loader/> : 'Update'}
-                        </button>
-                        <button
-                            type="button"
-                            className="modal-button cancel"
-                            onClick={onClose}
-                            disabled={isUpdating}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-};
-
-const CreateGuestModal = ({isOpen, onClose, onCreate, isCreating}) => {
-    const [formData, setFormData] = useState({
-        fullName: '',
-        gender: '',
-        respStatus: 'null'
-    });
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = {
-            ...formData,
             respStatus: formData.respStatus === 'null' ? null : parseInt(formData.respStatus)
         };
-        onCreate(data);
+        onSubmit(data);
     };
 
     if (!isOpen) return null;
 
+    const title = mode === 'create' ? 'Add New Guest' : 'Edit Guest';
+    const submitButtonText = mode === 'create' ? 'Create' : 'Update';
+
     return (
         <div className="modal-overlay">
             <div className="modal-content edit-form">
-                <h3>Add New Guest</h3>
+                <h3>{title}</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="fullName">Full Name</label>
@@ -211,15 +130,15 @@ const CreateGuestModal = ({isOpen, onClose, onCreate, isCreating}) => {
                         <button
                             type="submit"
                             className="modal-button confirm"
-                            disabled={isCreating}
+                            disabled={isSubmitting}
                         >
-                            {isCreating ? <Loader/> : 'Create'}
+                            {isSubmitting ? <Loader/> : submitButtonText}
                         </button>
                         <button
                             type="button"
                             className="modal-button cancel"
                             onClick={onClose}
-                            disabled={isCreating}
+                            disabled={isSubmitting}
                         >
                             Cancel
                         </button>
@@ -316,18 +235,20 @@ const GuestTable = ({credentials, onLogout}) => {
                 guestName={guestToDelete?.fullName}
                 isDeleting={isDeleting}
             />
-            <EditGuestModal
+            <GuestFormModal
                 isOpen={editModalOpen}
                 onClose={() => setEditModalOpen(false)}
+                onSubmit={handleUpdateGuest}
+                isSubmitting={isUpdating}
                 guest={guestToEdit}
-                onUpdate={handleUpdateGuest}
-                isUpdating={isUpdating}
+                mode="edit"
             />
-            <CreateGuestModal
+            <GuestFormModal
                 isOpen={createModalOpen}
                 onClose={() => setCreateModalOpen(false)}
-                onCreate={handleCreateGuest}
-                isCreating={isCreating}
+                onSubmit={handleCreateGuest}
+                isSubmitting={isCreating}
+                mode="create"
             />
             <div className="admin-header">
                 <h2>Guest List</h2>
