@@ -138,14 +138,108 @@ const EditGuestModal = ({isOpen, onClose, guest, onUpdate, isUpdating}) => {
     );
 };
 
+const CreateGuestModal = ({isOpen, onClose, onCreate, isCreating}) => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        gender: '',
+        respStatus: 'null'
+    });
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            ...formData,
+            respStatus: formData.respStatus === 'null' ? null : parseInt(formData.respStatus)
+        };
+        onCreate(data);
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content edit-form">
+                <h3>Add New Guest</h3>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="fullName">Full Name</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="gender">Gender</label>
+                        <select
+                            id="gender"
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="respStatus">Response Status</label>
+                        <select
+                            id="respStatus"
+                            name="respStatus"
+                            value={formData.respStatus}
+                            onChange={handleChange}
+                        >
+                            <option value="null">Pending</option>
+                            <option value="1">Attending</option>
+                            <option value="0">Not Attending</option>
+                        </select>
+                    </div>
+                    <div className="modal-actions">
+                        <button
+                            type="submit"
+                            className="modal-button confirm"
+                            disabled={isCreating}
+                        >
+                            {isCreating ? <Loader/> : 'Create'}
+                        </button>
+                        <button
+                            type="button"
+                            className="modal-button cancel"
+                            onClick={onClose}
+                            disabled={isCreating}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
 const GuestTable = ({credentials, onLogout}) => {
-    const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest} = useGuestList(credentials);
+    const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest, createGuest} = useGuestList(credentials);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const [createModalOpen, setCreateModalOpen] = useState(false);
     const [guestToDelete, setGuestToDelete] = useState(null);
     const [guestToEdit, setGuestToEdit] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
 
     const navigate = useCallback((uuid) => {
         window.location.href = window.location.pathname + "/" + uuid
@@ -161,6 +255,10 @@ const GuestTable = ({credentials, onLogout}) => {
         e.stopPropagation();
         setGuestToEdit(guest);
         setEditModalOpen(true);
+    }, []);
+
+    const handleCreateClick = useCallback(() => {
+        setCreateModalOpen(true);
     }, []);
 
     const handleConfirmDelete = useCallback(async () => {
@@ -189,6 +287,16 @@ const GuestTable = ({credentials, onLogout}) => {
         }
     }, [guestToEdit, updateGuest]);
 
+    const handleCreateGuest = useCallback(async (formData) => {
+        setIsCreating(true);
+        try {
+            await createGuest(formData);
+            setCreateModalOpen(false);
+        } finally {
+            setIsCreating(false);
+        }
+    }, [createGuest]);
+
     const stats = useMemo(() => (guestList ? {
         total: guestList.length,
         approved: guestList.filter(guest => guest.respStatus === 1).length,
@@ -215,9 +323,22 @@ const GuestTable = ({credentials, onLogout}) => {
                 onUpdate={handleUpdateGuest}
                 isUpdating={isUpdating}
             />
+            <CreateGuestModal
+                isOpen={createModalOpen}
+                onClose={() => setCreateModalOpen(false)}
+                onCreate={handleCreateGuest}
+                isCreating={isCreating}
+            />
             <div className="admin-header">
                 <h2>Guest List</h2>
                 <div className="admin-actions">
+                    <button
+                        className="create-button"
+                        onClick={handleCreateClick}
+                        disabled={isCreating}
+                    >
+                        ➕ Add Guest
+                    </button>
                     <button
                         className={`refresh-button${loading ? "" : " refresh-button__icon"}`}
                         onClick={refetchGuestList}

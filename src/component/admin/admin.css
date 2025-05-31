@@ -416,3 +416,28 @@
     cursor: not-allowed;
     background-color: #4CAF50;
 }
+
+.create-button {
+    padding: 8px 16px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-button:hover {
+    background-color: #1976D2;
+    transform: translateY(-1px);
+}
+
+.create-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #2196F3;
+}
