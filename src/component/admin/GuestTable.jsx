@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import './admin.css';
 import Loader from '../loader/Loader';
 import useGuestList from "../../hook/useGuestList";
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 const DEFAULT_VALUES = {
     total: 0,
@@ -9,34 +10,6 @@ const DEFAULT_VALUES = {
     rejected: 0,
     pending: 0
 }
-
-const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDeleting}) => {
-    if (!isOpen) return null;
-
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h3>Delete Guest</h3>
-                <p>Are you sure you want to delete {guestName}?</p>
-                <div className="modal-actions">
-                    <button
-                        className="modal-button confirm"
-                        onClick={onConfirm}
-                        disabled={isDeleting}
-                    >
-                        {isDeleting ? <Loader/> : 'Yes'}
-                    </button>
-                    <button
-                        className="modal-button cancel"
-                        onClick={onClose}
-                    >
-                        No
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 'create'}) => {
     const [formData, setFormData] = useState({
