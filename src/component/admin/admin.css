@@ -178,6 +178,65 @@
         width: 100%;
         justify-content: center;
     }
+
+    .guest-table-container {
+        padding: 5px;
+        height: auto;
+        min-width: 0;
+        box-shadow: none;
+    }
+    .guest-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        font-size: 0.95em;
+    }
+    .guest-table thead {
+        display: none;
+    }
+    .guest-table tr {
+        display: block;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        background: #fff;
+        padding: 8px 6px;
+    }
+    .guest-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border: none;
+        font-size: 1em;
+    }
+    .guest-table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #888;
+        flex: 0 0 40%;
+        text-align: left;
+        padding-right: 8px;
+    }
+    .guest-table td:last-child {
+        justify-content: flex-end;
+    }
+    .guest-table tr {
+        cursor: pointer;
+    }
+    .actions-cell {
+        gap: 4px;
+    }
+    .edit-button, .delete-button, .create-button {
+        font-size: 13px;
+        padding: 4px 8px;
+    }
+    .stat-item {
+        padding: 8px 6px;
+    }
+    .admin-header {
+        padding: 0 2px;
+    }
 }
 
 .refresh-button {

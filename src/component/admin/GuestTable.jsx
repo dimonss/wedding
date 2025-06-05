@@ -170,14 +170,14 @@ const GuestTable = ({credentials, onLogout}) => {
                 <tbody>
                 {guestList.map((guest) => (
                     <tr key={guest.uuid} onClick={() => navigate(guest.uuid)}>
-                        <td>{guest.fullName}</td>
-                        <td className={`status ${guest.status}`}>
+                        <td data-label="Name">{guest.fullName}</td>
+                        <td data-label="Status" className={`status ${guest.status}`}>
                             {guest.respStatus === null ? '⏳ Pending' :
                                 guest.respStatus ? '✅ Attending' : '❌ Not'}
                         </td>
-                        <td>{guest.respDate}</td>
-                        <td>{guest.uuid}</td>
-                        <td className="actions-cell">
+                        <td data-label="Resp Date">{guest.respDate}</td>
+                        <td data-label="UUID">{guest.uuid}</td>
+                        <td data-label="Actions" className="actions-cell">
                             <button
                                 className="edit-button"
                                 onClick={(e) => handleEditClick(e, guest)}
