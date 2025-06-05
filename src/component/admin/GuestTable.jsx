@@ -117,21 +117,21 @@ const GuestTable = ({credentials, onLogout}) => {
                 <h2>Guest List</h2>
                 <div className="admin-actions">
                     <button
-                        className="create-button"
+                        className="create-button admin-action-btn"
                         onClick={handleCreateClick}
                         disabled={isCreating}
                     >
                         ➕ Add Guest
                     </button>
                     <button
-                        className={`refresh-button${loading ? "" : " refresh-button__icon"}`}
+                        className={`refresh-button admin-action-btn${loading ? "" : " refresh-button__icon"}`}
                         onClick={refetchGuestList}
                         disabled={loading}
                     >
                         {loading ? <Loader/> : 'Refresh Data'}
                     </button>
                     <button
-                        className="logout-button"
+                        className="logout-button admin-action-btn"
                         onClick={onLogout}
                     >
                         Logout

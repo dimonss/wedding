@@ -239,9 +239,9 @@
     }
 }
 
-.refresh-button {
+/* Общий стиль для всех action-кнопок */
+.admin-action-btn {
     padding: 8px 16px;
-    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -256,11 +256,26 @@
     justify-content: center;
 }
 
+.create-button {
+    background-color: #2196F3;
+}
+.create-button:hover:not(:disabled) {
+    background-color: #1976D2;
+    transform: translateY(-1px);
+}
+.create-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #2196F3;
+}
+
+.refresh-button {
+    background-color: #4CAF50;
+}
 .refresh-button:hover:not(:disabled) {
     background-color: #45a049;
     transform: translateY(-1px);
 }
-
 .refresh-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
@@ -279,24 +294,17 @@
 }
 
 .logout-button {
-    padding: 8px 16px;
     background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
-
-.logout-button:hover {
+.logout-button:hover:not(:disabled) {
     background-color: #c82333;
     transform: translateY(-1px);
 }
-
+.logout-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #dc3545;
+}
 .logout-button::before {
     content: '🚪';
     font-size: 16px;
@@ -307,11 +315,8 @@
         flex-direction: column;
         width: 100%;
     }
-
-    .logout-button,
-    .refresh-button {
+    .admin-action-btn {
         width: 100%;
-        justify-content: center;
     }
 }
 
