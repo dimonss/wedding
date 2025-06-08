@@ -48,8 +48,8 @@ const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 
     const submitButtonText = mode === 'create' ? 'Create' : 'Update';
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content edit-form">
+        <div className="form-modal-overlay">
+            <div className="form-modal-content edit-form">
                 <h3>{title}</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -90,17 +90,17 @@ const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 
                             <option value="0">Not Attending</option>
                         </select>
                     </div>
-                    <div className="modal-actions">
+                    <div className="form-modal-actions">
                         <button
                             type="submit"
-                            className="modal-button confirm"
+                            className="form-modal-button confirm"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? <Loader/> : submitButtonText}
                         </button>
                         <button
                             type="button"
-                            className="modal-button cancel"
+                            className="form-modal-button cancel"
                             onClick={onClose}
                             disabled={isSubmitting}
                         >
