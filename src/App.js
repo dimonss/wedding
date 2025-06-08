@@ -5,7 +5,7 @@ import useAcceptGuest from "./hook/useAcceptGuest";
 import useRejectGuest from "./hook/useRejectGuest";
 import useAdminCredentials from "./hook/useAdminCredentials";
 import GuestTable from "./component/admin/GuestTable";
-import LoginForm from "./component/loginForm/LoginForm";
+import LoginForm from "./component/admin/modalWindow/loginForm/LoginForm";
 import InvitationPage from "./component/InvitationPage/InvitationPage";
 
 function App() {
