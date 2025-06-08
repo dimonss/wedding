@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import Loader from '../loader/Loader';
-import './admin.css';
+import Loader from '../../../loader/Loader';
+import './GuestFormModal.css';
 
 const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 'create'}) => {
     const [formData, setFormData] = useState({

@@ -1,9 +1,9 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import './admin.css';
+import './guestTable.css';
 import Loader from '../loader/Loader';
 import useGuestList from "../../hook/useGuestList";
-import DeleteConfirmationModal from './DeleteConfirmationModal';
-import GuestFormModal from './GuestFormModal';
+import DeleteConfirmationModal from './modalWindow/DeleteConfirmationModal/DeleteConfirmationModal';
+import GuestFormModal from './modalWindow/GuestFormModal/GuestFormModal';
 
 const DEFAULT_VALUES = {
     total: 0,

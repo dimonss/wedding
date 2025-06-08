@@ -1,6 +1,6 @@
 import React from 'react';
-import Loader from '../loader/Loader';
-import './admin.css';
+import Loader from '../../../loader/Loader';
+import './DeleteConfirmationModal.css';
 
 const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDeleting}) => {
     if (!isOpen) return null;
