@@ -22,6 +22,7 @@ const GuestTable = ({credentials, onLogout}) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const navigate = useCallback((uuid) => {
         window.location.href = window.location.pathname + "/" + uuid
@@ -79,12 +80,24 @@ const GuestTable = ({credentials, onLogout}) => {
         }
     }, [createGuest]);
 
-    const stats = useMemo(() => (guestList ? {
-        total: guestList.length,
-        approved: guestList.filter(guest => guest.respStatus === 1).length,
-        rejected: guestList.filter(guest => guest.respStatus === 0).length,
-        pending: guestList.filter(guest => guest.respStatus === null).length
-    } : DEFAULT_VALUES), [guestList]);
+    // Filter guests based on search term
+    const filteredGuestList = useMemo(() => {
+        if (!guestList) return [];
+        if (!searchTerm.trim()) return guestList;
+        
+        const searchLower = searchTerm.toLowerCase();
+        return guestList.filter(guest => 
+            guest.fullName?.toLowerCase().includes(searchLower) ||
+            guest.uuid?.toLowerCase().includes(searchLower)
+        );
+    }, [guestList, searchTerm]);
+
+    const stats = useMemo(() => (filteredGuestList ? {
+        total: filteredGuestList.length,
+        approved: filteredGuestList.filter(guest => guest.respStatus === 1).length,
+        rejected: filteredGuestList.filter(guest => guest.respStatus === 0).length,
+        pending: filteredGuestList.filter(guest => guest.respStatus === null).length
+    } : DEFAULT_VALUES), [filteredGuestList]);
 
     if (error) return <div className="error-message">Error: {error}</div>;
     if (!guestList || guestList.length === 0) return <div>No guests found</div>;
@@ -138,6 +151,27 @@ const GuestTable = ({credentials, onLogout}) => {
                     </button>
                 </div>
             </div>
+            
+            {/* Search Input */}
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search guests by name, email, phone, or UUID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                />
+                {searchTerm && (
+                    <button
+                        className="clear-search-btn"
+                        onClick={() => setSearchTerm('')}
+                        title="Clear search"
+                    >
+                        ✕
+                    </button>
+                )}
+            </div>
+
             <div className="stats-summary">
                 <div className="stat-item">
                     <span className="stat-label">Total:</span>
@@ -156,6 +190,13 @@ const GuestTable = ({credentials, onLogout}) => {
                     <span className="stat-value pending">{stats.pending}</span>
                 </div>
             </div>
+            
+            {searchTerm && (
+                <div className="search-results-info">
+                    Showing {filteredGuestList.length} of {guestList.length} guests
+                </div>
+            )}
+            
             <h2>Guest List</h2>
             <table className="guest-table">
                 <thead>
@@ -168,7 +209,7 @@ const GuestTable = ({credentials, onLogout}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {guestList.map((guest) => (
+                {filteredGuestList.map((guest) => (
                     <tr key={guest.uuid} onClick={() => navigate(guest.uuid)}>
                         <td data-label="Name">{guest.fullName}</td>
                         <td data-label="Status" className={`status ${guest.status}`}>
@@ -197,6 +238,12 @@ const GuestTable = ({credentials, onLogout}) => {
                 ))}
                 </tbody>
             </table>
+            
+            {filteredGuestList.length === 0 && searchTerm && (
+                <div className="no-results">
+                    No guests found matching "{searchTerm}"
+                </div>
+            )}
         </div>
     );
 };
