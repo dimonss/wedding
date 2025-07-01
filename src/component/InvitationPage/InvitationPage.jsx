@@ -28,12 +28,12 @@ const InvitationPage = ({
                     </div>
                     <div className="container__image">
                         <div className="names">
-                            <h2>Дмитрия &</h2>
-                            <h2>{"Екатерины"}</h2>
+                            <h2>{`${guestData.husbands_name} &`}</h2>
+                            <h2>{guestData.wifes_name}</h2>
                         </div>
                         <div className="header-text">
                             <div className="date-time">{'14 - го июня\n2025 года'}</div>
-                            <div className="guest-arrival">{'16:30—17:30\nсбор гостей'}</div>
+                            <div className="guest-arrival">{guestData?.time}</div>
                         </div>
                     </div>
                     <div className="guest-name">
@@ -41,10 +41,10 @@ const InvitationPage = ({
                     </div>
                     <div className="invitation-text">
                         {respStatus === null &&
-                            <p>Мы, Дмитрий и Екатерина,<br/>
-                                с радостью приглашаем Вас<br/>
-                                на наше свадебное<br/>
-                                торжество!</p>
+                            <p>{`Мы, ${guestData.husbands_name} и ${guestData.wifes_name},\n
+                                с радостью приглашаем Вас \n
+                                на наше свадебное\n
+                                торжество!`}</p>
                         }
                         {respStatus === 1 &&
                             <p>Ждем с нетерпением 🤗</p>
@@ -81,7 +81,7 @@ const InvitationPage = ({
                     </div>
                     <div className="venue-details" id="date">
                         <h3>📅 Дата и время:</h3>
-                        <p>14-го июня 2025 года</p>
+                        <p>{guestData.date}</p>
                         <h3>📍 Место, как проехать:</h3>
                         <p>«Кленовый лист» Гольф-клуб</p>
                         <p>ул. Фрунзе, 1 с. Кара-Джыгач,</p>
