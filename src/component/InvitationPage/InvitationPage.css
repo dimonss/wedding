@@ -39,6 +39,7 @@
 
 .date-time, .guest-arrival {
     margin: 5px 0;
+    white-space: pre-line;
 }
 
 .container__image {
