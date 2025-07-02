@@ -2,8 +2,10 @@ import React, {useCallback, useMemo, useState} from 'react';
 import './guestTable.css';
 import Loader from '../loader/Loader';
 import useGuestList from "../../hook/useGuestList";
+import useWeddingInfo from "../../hook/useWeddingInfo";
 import DeleteConfirmationModal from './modalWindow/DeleteConfirmationModal/DeleteConfirmationModal';
 import GuestFormModal from './modalWindow/GuestFormModal/GuestFormModal';
+import WeddingInfoModal from './modalWindow/WeddingInfoModal/WeddingInfoModal';
 
 const DEFAULT_VALUES = {
     total: 0,
@@ -14,14 +16,17 @@ const DEFAULT_VALUES = {
 
 const GuestTable = ({credentials, onLogout}) => {
     const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest, createGuest} = useGuestList(credentials);
+    const {weddingInfo, loading: weddingLoading, error: weddingError, updateCoupleInfo, updateWeddingInfo} = useWeddingInfo(credentials);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [weddingModalOpen, setWeddingModalOpen] = useState(false);
     const [guestToDelete, setGuestToDelete] = useState(null);
     const [guestToEdit, setGuestToEdit] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
+    const [isUpdatingWedding, setIsUpdatingWedding] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
     const navigate = useCallback((uuid) => {
@@ -80,6 +85,35 @@ const GuestTable = ({credentials, onLogout}) => {
         }
     }, [createGuest]);
 
+    const handleWeddingInfoClick = useCallback(() => {
+        setWeddingModalOpen(true);
+    }, []);
+
+    const handleUpdateWeddingInfo = useCallback(async (formData) => {
+        setIsUpdatingWedding(true);
+        try {
+            const { coupleData, weddingData } = formData;
+            
+            // Update couple information
+            const coupleResult = await updateCoupleInfo(coupleData);
+            if (!coupleResult.success) {
+                throw new Error(coupleResult.error);
+            }
+            
+            // Update wedding information
+            const weddingResult = await updateWeddingInfo(weddingData);
+            if (!weddingResult.success) {
+                throw new Error(weddingResult.error);
+            }
+            
+            setWeddingModalOpen(false);
+        } catch (error) {
+            console.error('Error updating wedding information:', error);
+        } finally {
+            setIsUpdatingWedding(false);
+        }
+    }, [updateCoupleInfo, updateWeddingInfo]);
+
     // Filter guests based on search term
     const filteredGuestList = useMemo(() => {
         if (!guestList) return [];
@@ -100,6 +134,7 @@ const GuestTable = ({credentials, onLogout}) => {
     } : DEFAULT_VALUES), [filteredGuestList]);
 
     if (error) return <div className="error-message">Error: {error}</div>;
+    if (weddingError) return <div className="error-message">Wedding Info Error: {weddingError}</div>;
     if (!guestList || guestList.length === 0) return <div>No guests found</div>;
 
     return (
@@ -126,6 +161,14 @@ const GuestTable = ({credentials, onLogout}) => {
                 isSubmitting={isCreating}
                 mode="create"
             />
+            <WeddingInfoModal
+                isOpen={weddingModalOpen}
+                onClose={() => setWeddingModalOpen(false)}
+                onSubmit={handleUpdateWeddingInfo}
+                isSubmitting={isUpdatingWedding}
+                weddingInfo={weddingInfo}
+                mode="edit"
+            />
             <div className="admin-header">
                 <h2>Guest List</h2>
                 <div className="admin-actions">
@@ -135,6 +178,13 @@ const GuestTable = ({credentials, onLogout}) => {
                         disabled={isCreating}
                     >
                         ➕ Add Guest
+                    </button>
+                    <button
+                        className="wedding-info-button admin-action-btn"
+                        onClick={handleWeddingInfoClick}
+                        disabled={isUpdatingWedding || weddingLoading}
+                    >
+                        {isUpdatingWedding || weddingLoading ? <Loader/> : '💒 Wedding Info'}
                     </button>
                     <button
                         className={`refresh-button admin-action-btn${loading ? "" : " refresh-button__icon"}`}
