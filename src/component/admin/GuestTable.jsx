@@ -135,7 +135,7 @@ const GuestTable = ({credentials, onLogout}) => {
 
     if (error) return <div className="error-message">Error: {error}</div>;
     if (weddingError) return <div className="error-message">Wedding Info Error: {weddingError}</div>;
-    if (!guestList || guestList.length === 0) return <div>No guests found</div>;
+    // if (!guestList || guestList.length === 0) return ;
 
     return (
         <div className="guest-table-container">
@@ -289,9 +289,9 @@ const GuestTable = ({credentials, onLogout}) => {
                 </tbody>
             </table>
             
-            {filteredGuestList.length === 0 && searchTerm && (
+            {filteredGuestList.length === 0 && (
                 <div className="no-results">
-                    No guests found matching "{searchTerm}"
+                    {searchTerm ? `No guests found matching "${searchTerm}"` : "No guests found"}
                 </div>
             )}
         </div>
