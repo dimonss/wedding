@@ -6,6 +6,7 @@ import useWeddingInfo from "../../hook/useWeddingInfo";
 import DeleteConfirmationModal from './modalWindow/DeleteConfirmationModal/DeleteConfirmationModal';
 import GuestFormModal from './modalWindow/GuestFormModal/GuestFormModal';
 import WeddingInfoModal from './modalWindow/WeddingInfoModal/WeddingInfoModal';
+import LogoutConfirmationModal from './modalWindow/LogoutConfirmationModal/LogoutConfirmationModal';
 
 const DEFAULT_VALUES = {
     total: 0,
@@ -21,6 +22,7 @@ const GuestTable = ({credentials, onLogout}) => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [weddingModalOpen, setWeddingModalOpen] = useState(false);
+    const [logoutModalOpen, setLogoutModalOpen] = useState(false);
     const [guestToDelete, setGuestToDelete] = useState(null);
     const [guestToEdit, setGuestToEdit] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -89,6 +91,19 @@ const GuestTable = ({credentials, onLogout}) => {
         setWeddingModalOpen(true);
     }, []);
 
+    const handleLogoutClick = useCallback(() => {
+        setLogoutModalOpen(true);
+    }, []);
+
+    const handleLogoutClose = useCallback(() => {
+        setLogoutModalOpen(false);
+    }, []);
+
+    const handleLogoutConfirm = useCallback(() => {
+        setLogoutModalOpen(false);
+        onLogout();
+    }, [onLogout]);
+
     const handleUpdateWeddingInfo = useCallback(async (formData) => {
         setIsUpdatingWedding(true);
         try {
@@ -97,13 +112,15 @@ const GuestTable = ({credentials, onLogout}) => {
             // Update couple information
             const coupleResult = await updateCoupleInfo(coupleData);
             if (!coupleResult.success) {
-                throw new Error(coupleResult.error);
+                console.error('Error updating couple information:', coupleResult.error);
+                return;
             }
             
             // Update wedding information
             const weddingResult = await updateWeddingInfo(weddingData);
             if (!weddingResult.success) {
-                throw new Error(weddingResult.error);
+                console.error('Error updating wedding information:', weddingResult.error);
+                return;
             }
             
             setWeddingModalOpen(false);
@@ -169,6 +186,11 @@ const GuestTable = ({credentials, onLogout}) => {
                 weddingInfo={weddingInfo}
                 mode="edit"
             />
+            <LogoutConfirmationModal
+                isOpen={logoutModalOpen}
+                onClose={handleLogoutClose}
+                onConfirm={handleLogoutConfirm}
+            />
             <div className="admin-header">
                 <h2>Guest List</h2>
                 <div className="admin-actions">
@@ -195,7 +217,7 @@ const GuestTable = ({credentials, onLogout}) => {
                     </button>
                     <button
                         className="logout-button admin-action-btn"
-                        onClick={onLogout}
+                        onClick={handleLogoutClick}
                     >
                         Logout
                     </button>
