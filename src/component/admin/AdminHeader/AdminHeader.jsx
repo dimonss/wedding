@@ -7,6 +7,8 @@ const AdminHeader = ({
     onWeddingInfoClick,
     onRefreshClick,
     onLogoutClick,
+    onTestErrorClick,
+    onTestModalErrorClick,
     isCreating,
     isUpdatingWedding,
     weddingLoading,
@@ -17,31 +19,50 @@ const AdminHeader = ({
             <h2>Guest List</h2>
             <div className="admin-actions">
                 <button
-                    className="create-button admin-action-btn"
+                    className="admin-action-btn create-button"
                     onClick={onCreateClick}
                     disabled={isCreating}
                 >
-                    ➕ Add Guest
+                    {isCreating ? 'Creating...' : '➕ Add Guest'}
                 </button>
+                
                 <button
-                    className="wedding-info-button admin-action-btn"
-                    onClick={onWeddingInfoClick}
-                    disabled={isUpdatingWedding || weddingLoading}
-                >
-                    {isUpdatingWedding || weddingLoading ? <Loader/> : '💒 Wedding Info'}
-                </button>
-                <button
-                    className={`refresh-button admin-action-btn${loading ? "" : " refresh-button__icon"}`}
+                    className="admin-action-btn refresh-button"
                     onClick={onRefreshClick}
                     disabled={loading}
                 >
-                    {loading ? <Loader/> : 'Refresh Data'}
+                    <span className="refresh-button__icon"></span>
+                    {loading ? 'Refreshing...' : 'Refresh Data'}
                 </button>
+                
                 <button
-                    className="logout-button admin-action-btn"
+                    className="admin-action-btn wedding-info-button"
+                    onClick={onWeddingInfoClick}
+                    disabled={isUpdatingWedding || weddingLoading}
+                >
+                    {isUpdatingWedding ? 'Updating...' : 'Wedding Info'}
+                </button>
+                
+                <button
+                    className="admin-action-btn logout-button"
                     onClick={onLogoutClick}
                 >
                     Logout
+                </button>
+                
+                {/* Тестовые кнопки для ErrorBoundary */}
+                <button
+                    className="admin-action-btn test-error-button"
+                    onClick={onTestErrorClick}
+                >
+                    🧪 Test Error
+                </button>
+                
+                <button
+                    className="admin-action-btn test-modal-error-button"
+                    onClick={onTestModalErrorClick}
+                >
+                    🪟 Test Modal Error
                 </button>
             </div>
         </div>

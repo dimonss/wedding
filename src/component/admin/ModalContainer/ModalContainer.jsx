@@ -3,6 +3,7 @@ import DeleteConfirmationModal from '../modalWindow/DeleteConfirmationModal/Dele
 import GuestFormModal from '../modalWindow/GuestFormModal/GuestFormModal';
 import WeddingInfoModal from '../modalWindow/WeddingInfoModal/WeddingInfoModal';
 import LogoutConfirmationModal from '../modalWindow/LogoutConfirmationModal/LogoutConfirmationModal';
+import TestModalError from '../modalWindow/TestModalError/TestModalError';
 import ErrorBoundary from '../modalWindow/ErrorBoundary/ErrorBoundary';
 
 const ModalContainer = ({
@@ -36,50 +37,71 @@ const ModalContainer = ({
     // Logout modal
     logoutModalOpen,
     onLogoutClose,
-    onLogoutConfirm
+    onLogoutConfirm,
+    
+    // Test modal error
+    testModalErrorOpen,
+    onTestModalErrorClose
 }) => {
     return (
-        <ErrorBoundary>
-            <DeleteConfirmationModal
-                isOpen={deleteModalOpen}
-                onClose={onDeleteClose}
-                onConfirm={onDeleteConfirm}
-                guestName={guestToDelete?.fullName}
-                isDeleting={isDeleting}
-            />
+        <>
+            <ErrorBoundary>
+                <DeleteConfirmationModal
+                    isOpen={deleteModalOpen}
+                    onClose={onDeleteClose}
+                    onConfirm={onDeleteConfirm}
+                    guestName={guestToDelete?.fullName}
+                    isDeleting={isDeleting}
+                />
+            </ErrorBoundary>
             
-            <GuestFormModal
-                isOpen={editModalOpen}
-                onClose={onEditClose}
-                onSubmit={onEditSubmit}
-                isSubmitting={isUpdating}
-                guest={guestToEdit}
-                mode="edit"
-            />
+            <ErrorBoundary>
+                <GuestFormModal
+                    isOpen={editModalOpen}
+                    onClose={onEditClose}
+                    onSubmit={onEditSubmit}
+                    isSubmitting={isUpdating}
+                    guest={guestToEdit}
+                    mode="edit"
+                />
+            </ErrorBoundary>
             
-            <GuestFormModal
-                isOpen={createModalOpen}
-                onClose={onCreateClose}
-                onSubmit={onCreateSubmit}
-                isSubmitting={isCreating}
-                mode="create"
-            />
+            <ErrorBoundary>
+                <GuestFormModal
+                    isOpen={createModalOpen}
+                    onClose={onCreateClose}
+                    onSubmit={onCreateSubmit}
+                    isSubmitting={isCreating}
+                    mode="create"
+                />
+            </ErrorBoundary>
             
-            <WeddingInfoModal
-                isOpen={weddingModalOpen}
-                onClose={onWeddingClose}
-                onSubmit={onWeddingSubmit}
-                isSubmitting={isUpdatingWedding}
-                weddingInfo={weddingInfo}
-                mode="edit"
-            />
+            <ErrorBoundary>
+                <WeddingInfoModal
+                    isOpen={weddingModalOpen}
+                    onClose={onWeddingClose}
+                    onSubmit={onWeddingSubmit}
+                    isSubmitting={isUpdatingWedding}
+                    weddingInfo={weddingInfo}
+                    mode="edit"
+                />
+            </ErrorBoundary>
             
-            <LogoutConfirmationModal
-                isOpen={logoutModalOpen}
-                onClose={onLogoutClose}
-                onConfirm={onLogoutConfirm}
-            />
-        </ErrorBoundary>
+            <ErrorBoundary>
+                <LogoutConfirmationModal
+                    isOpen={logoutModalOpen}
+                    onClose={onLogoutClose}
+                    onConfirm={onLogoutConfirm}
+                />
+            </ErrorBoundary>
+            
+            <ErrorBoundary>
+                <TestModalError
+                    isOpen={testModalErrorOpen}
+                    onClose={onTestModalErrorClose}
+                />
+            </ErrorBoundary>
+        </>
     );
 };
 

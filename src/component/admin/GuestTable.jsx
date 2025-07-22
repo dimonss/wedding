@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './guestTable.css';
 import useGuestList from "../../hook/useGuestList";
 import useWeddingInfo from "../../hook/useWeddingInfo";
@@ -9,8 +9,12 @@ import SearchBar from './SearchBar/SearchBar';
 import StatsSummary from './StatsSummary/StatsSummary';
 import GuestTableComponent from './GuestTableComponent/GuestTableComponent';
 import ModalContainer from './ModalContainer/ModalContainer';
+import TestError from '../TestError/TestError';
 
 const GuestTable = ({credentials, onLogout}) => {
+    const [showTestError, setShowTestError] = useState(false);
+    const [testModalErrorOpen, setTestModalErrorOpen] = useState(false);
+    
     const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest, createGuest} = useGuestList(credentials);
     const {weddingInfo, loading: weddingLoading, error: weddingError, updateCoupleInfo, updateWeddingInfo} = useWeddingInfo(credentials);
     
@@ -82,9 +86,23 @@ const GuestTable = ({credentials, onLogout}) => {
         handleLogoutConfirm(onLogout);
     };
 
+    // Handle test error button
+    const handleTestErrorClick = () => {
+        setShowTestError(!showTestError);
+    };
+
+    // Handle test modal error button
+    const handleTestModalErrorClick = () => {
+        setTestModalErrorOpen(true);
+    };
+
+    // Handle test modal error close
+    const handleTestModalErrorClose = () => {
+        setTestModalErrorOpen(false);
+    };
+
     if (error) return <div className="error-message">Error: {error}</div>;
     if (weddingError) return <div className="error-message">Wedding Info Error: {weddingError}</div>;
-    // if (!guestList || guestList.length === 0) return ;
 
     return (
         <div className="guest-table-container">
@@ -111,6 +129,8 @@ const GuestTable = ({credentials, onLogout}) => {
                 logoutModalOpen={logoutModalOpen}
                 onLogoutClose={handleLogoutClose}
                 onLogoutConfirm={handleLogoutConfirmWithCallback}
+                testModalErrorOpen={testModalErrorOpen}
+                onTestModalErrorClose={handleTestModalErrorClose}
             />
             
             <AdminHeader
@@ -118,11 +138,15 @@ const GuestTable = ({credentials, onLogout}) => {
                 onWeddingInfoClick={handleWeddingInfoClick}
                 onRefreshClick={refetchGuestList}
                 onLogoutClick={handleLogoutClick}
+                onTestErrorClick={handleTestErrorClick}
+                onTestModalErrorClick={handleTestModalErrorClick}
                 isCreating={isCreating}
                 isUpdatingWedding={isUpdatingWedding}
                 weddingLoading={weddingLoading}
                 loading={loading}
             />
+            
+            {showTestError && <TestError />}
             
             <SearchBar
                 searchTerm={searchTerm}
