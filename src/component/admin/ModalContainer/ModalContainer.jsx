@@ -3,6 +3,7 @@ import DeleteConfirmationModal from '../modalWindow/DeleteConfirmationModal/Dele
 import GuestFormModal from '../modalWindow/GuestFormModal/GuestFormModal';
 import WeddingInfoModal from '../modalWindow/WeddingInfoModal/WeddingInfoModal';
 import LogoutConfirmationModal from '../modalWindow/LogoutConfirmationModal/LogoutConfirmationModal';
+import ErrorBoundary from '../modalWindow/ErrorBoundary/ErrorBoundary';
 
 const ModalContainer = ({
     // Delete modal
@@ -38,7 +39,7 @@ const ModalContainer = ({
     onLogoutConfirm
 }) => {
     return (
-        <>
+        <ErrorBoundary>
             <DeleteConfirmationModal
                 isOpen={deleteModalOpen}
                 onClose={onDeleteClose}
@@ -78,7 +79,7 @@ const ModalContainer = ({
                 onClose={onLogoutClose}
                 onConfirm={onLogoutConfirm}
             />
-        </>
+        </ErrorBoundary>
     );
 };
 

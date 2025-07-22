@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../../loader/Loader';
+import { useModal } from '../../../../hook/useModal';
+import ModalPortal from '../ModalPortal/ModalPortal';
 import './WeddingInfoModal.css';
 
 const WeddingInfoModal = ({ isOpen, onClose, onSubmit, isSubmitting, weddingInfo }) => {
+    useModal(isOpen, onClose);
+
     const [formData, setFormData] = useState({
         husbands_name: '',
         wifes_name: '',
@@ -57,99 +61,96 @@ const WeddingInfoModal = ({ isOpen, onClose, onSubmit, isSubmitting, weddingInfo
         onSubmit({ coupleData, weddingData });
     };
 
-    if (!isOpen) return null;
-
     const title = 'Edit Wedding Information';
     const submitButtonText = 'Update';
 
     return (
-        <div className="form-modal-overlay">
-            <div className="form-modal-content wedding-form">
-                <h3>{title}</h3>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-section">
-                        <h4>Couple Information</h4>
-                        <div className="form-group">
-                            <label htmlFor="husbands_name">Husband's Name</label>
-                            <input
-                                type="text"
-                                id="husbands_name"
-                                name="husbands_name"
-                                value={formData.husbands_name}
-                                onChange={handleChange}
-                                placeholder="Enter husband's name"
-                            />
+        <ModalPortal isOpen={isOpen}>
+            <div className="form-modal-overlay">
+                <div className="form-modal-content wedding-form">
+                    <h3>{title}</h3>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-section">
+                            <h4>Couple Information</h4>
+                            <div className="form-group">
+                                <label htmlFor="husbands_name">Husband's Name</label>
+                                <input
+                                    type="text"
+                                    id="husbands_name"
+                                    name="husbands_name"
+                                    value={formData.husbands_name}
+                                    onChange={handleChange}
+                                    placeholder="Enter husband's name"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="wifes_name">Wife's Name</label>
+                                <input
+                                    type="text"
+                                    id="wifes_name"
+                                    name="wifes_name"
+                                    value={formData.wifes_name}
+                                    onChange={handleChange}
+                                    placeholder="Enter wife's name"
+                                />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="wifes_name">Wife's Name</label>
-                            <input
-                                type="text"
-                                id="wifes_name"
-                                name="wifes_name"
-                                value={formData.wifes_name}
-                                onChange={handleChange}
-                                placeholder="Enter wife's name"
-                            />
+                        
+                        <div className="form-section">
+                            <h4>Wedding Details</h4>
+                            <div className="form-group">
+                                <label htmlFor="date">Date</label>
+                                <input
+                                    type="date"
+                                    id="date"
+                                    name="date"
+                                    value={formData.date}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="time">Time</label>
+                                <input
+                                    type="time"
+                                    id="time"
+                                    name="time"
+                                    value={formData.time}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="address">Address</label>
+                                <textarea
+                                    id="address"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    placeholder="Enter wedding venue address"
+                                />
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div className="form-section">
-                        <h4>Wedding Details</h4>
-                        <div className="form-group">
-                            <label htmlFor="date">Wedding Date</label>
-                            <textarea
-                                id="date"
-                                name="date"
-                                value={formData.date}
-                                onChange={handleChange}
-                                placeholder="Enter wedding date (e.g., December 25, 2024)"
-                                rows="2"
-                            />
+                        
+                        <div className="form-modal-actions">
+                            <button
+                                type="submit"
+                                className="form-modal-button confirm"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? <Loader/> : submitButtonText}
+                            </button>
+                            <button
+                                type="button"
+                                className="form-modal-button cancel"
+                                onClick={onClose}
+                                disabled={isSubmitting}
+                            >
+                                Cancel
+                            </button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="time">Wedding Time</label>
-                            <textarea
-                                id="time"
-                                name="time"
-                                value={formData.time}
-                                onChange={handleChange}
-                                placeholder="Enter wedding time (e.g., 18:00 or 6:00 PM)"
-                                rows="2"
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="address">Wedding Address</label>
-                            <textarea
-                                id="address"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                placeholder="Enter wedding venue address"
-                                rows="2"
-                            />
-                        </div>
-                    </div>
-                    
-                    <div className="form-modal-actions">
-                        <button
-                            type="submit"
-                            className="form-modal-button confirm"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? <Loader/> : submitButtonText}
-                        </button>
-                        <button
-                            type="button"
-                            className="form-modal-button cancel"
-                            onClick={onClose}
-                            disabled={isSubmitting}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </ModalPortal>
     );
 };
 
