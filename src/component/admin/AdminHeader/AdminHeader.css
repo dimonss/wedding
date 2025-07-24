@@ -11,6 +11,9 @@
     border: 1px solid var(--border-color);
     animation: slideIn 0.6s ease-out;
 }
+.admin-header div {
+    display: flex;
+}
 
 .admin-header h2 {
     margin: 0;
@@ -165,41 +168,3 @@
     content: '🚪';
     font-size: 16px;
 }
-
-.test-error-button {
-    background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
-    box-shadow: 0 4px 15px rgba(246, 173, 85, 0.3);
-}
-
-.test-error-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(246, 173, 85, 0.4);
-}
-
-.test-error-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
-    transform: none;
-    box-shadow: 0 4px 15px rgba(246, 173, 85, 0.3);
-}
-
-.test-modal-error-button {
-    background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
-    box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
-}
-
-.test-modal-error-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #319795 0%, #2c7a7b 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(56, 178, 172, 0.4);
-}
-
-.test-modal-error-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
-    transform: none;
-    box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
-} 
