@@ -1,5 +1,4 @@
 import React from 'react';
-import Loader from '../../loader/Loader';
 import './AdminHeader.css';
 
 const AdminHeader = ({
@@ -29,20 +28,20 @@ const AdminHeader = ({
                 </button>
 
                 <button
+                    className="admin-action-btn wedding-info-button"
+                    onClick={onWeddingInfoClick}
+                    disabled={isUpdatingWedding || weddingLoading}
+                >
+                    {isUpdatingWedding ? 'Updating...' : 'Wedding Info'}
+                </button>
+
+                <button
                     className="admin-action-btn refresh-button"
                     onClick={onRefreshClick}
                     disabled={loading}
                 >
                     <span className="refresh-button__icon"></span>
                     {loading ? 'Refreshing...' : 'Refresh Data'}
-                </button>
-
-                <button
-                    className="admin-action-btn wedding-info-button"
-                    onClick={onWeddingInfoClick}
-                    disabled={isUpdatingWedding || weddingLoading}
-                >
-                    {isUpdatingWedding ? 'Updating...' : 'Wedding Info'}
                 </button>
 
                 <button

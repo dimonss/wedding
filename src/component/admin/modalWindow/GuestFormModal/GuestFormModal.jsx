@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import Loader from '../../../loader/Loader';
-import { useModal } from '../../../../hook/useModal';
 import ModalPortal from '../ModalPortal/ModalPortal';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import './GuestFormModal.css';
 
 const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 'create'}) => {
-    useModal(isOpen, onClose);
-
     const [formData, setFormData] = useState({
         fullName: '',
         gender: '',
@@ -51,7 +49,7 @@ const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 
 
     return (
         <ModalPortal isOpen={isOpen}>
-            <div className="form-modal-overlay">
+            <ModalOverlay isOpen={isOpen} onClose={onClose}>
                 <div className="form-modal-content edit-form">
                     <h3>{title}</h3>
                     <form onSubmit={handleSubmit}>
@@ -99,7 +97,14 @@ const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 
                                 className="form-modal-button confirm"
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? <Loader/> : submitButtonText}
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader />
+                                        {submitButtonText}ing...
+                                    </>
+                                ) : (
+                                    submitButtonText
+                                )}
                             </button>
                             <button
                                 type="button"
@@ -112,7 +117,7 @@ const GuestFormModal = ({isOpen, onClose, onSubmit, isSubmitting, guest, mode = 
                         </div>
                     </form>
                 </div>
-            </div>
+            </ModalOverlay>
         </ModalPortal>
     );
 };

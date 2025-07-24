@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
 export const useModal = (isOpen, onClose) => {
     useEffect(() => {
@@ -14,16 +14,23 @@ export const useModal = (isOpen, onClose) => {
             }
         };
 
+        const handleOutsideClick = (event) => {
+            if (event.target.classList.contains('modal-overlay'))
+                onClose();
+        };
+
         // Prevent body scroll when modal is open
         document.body.style.overflow = 'hidden';
 
-        // Add event listener for ESC key
+        // Add event listeners
         document.addEventListener('keydown', handleEscape);
+        document.addEventListener('mousedown', handleOutsideClick);
 
         // Cleanup function
         return () => {
             document.body.style.overflow = 'unset';
             document.removeEventListener('keydown', handleEscape);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, [isOpen, onClose]);
 }; 

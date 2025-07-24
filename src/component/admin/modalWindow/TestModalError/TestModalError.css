@@ -1,17 +1,3 @@
-.test-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
 .test-modal-content {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -22,6 +8,7 @@
     text-align: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideInUp 0.6s ease-out;
 }
 
 .test-modal-content h3 {
@@ -32,6 +19,7 @@
     background-clip: text;
     font-size: 1.5rem;
     font-weight: 700;
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .test-modal-content p {
@@ -39,6 +27,7 @@
     color: #4a5568;
     font-size: 1rem;
     line-height: 1.6;
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .test-modal-buttons {
@@ -59,6 +48,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .test-modal-button::before {
@@ -72,7 +62,7 @@
     transition: left 0.5s;
 }
 
-.test-modal-button:hover::before {
+.test-modal-button:hover:not(:disabled)::before {
     left: 100%;
 }
 
@@ -82,7 +72,7 @@
     box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
 }
 
-.test-modal-button.render:hover {
+.test-modal-button.render:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
 }
@@ -93,7 +83,7 @@
     box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
 }
 
-.test-modal-button.event:hover {
+.test-modal-button.event:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
 }
@@ -104,7 +94,7 @@
     box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
 }
 
-.test-modal-button.async:hover {
+.test-modal-button.async:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(56, 178, 172, 0.4);
 }
@@ -115,7 +105,7 @@
     box-shadow: 0 4px 15px rgba(159, 122, 234, 0.3);
 }
 
-.test-modal-button.state:hover {
+.test-modal-button.state:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(159, 122, 234, 0.4);
 }
@@ -123,24 +113,44 @@
 .test-modal-actions {
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 }
 
 .test-modal-button.close {
     background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(160, 174, 192, 0.3);
-    min-width: 120px;
 }
 
-.test-modal-button.close:hover {
+.test-modal-button.close:hover:not(:disabled) {
+    background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(160, 174, 192, 0.4);
 }
 
+.test-modal-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
     .test-modal-content {
-        padding: 1.5rem;
-        margin: 1rem;
+        padding: 2rem;
+        max-width: 450px;
     }
     
     .test-modal-content h3 {
@@ -148,7 +158,27 @@
     }
     
     .test-modal-button {
-        font-size: 0.8rem;
-        padding: 0.6rem 1.2rem;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-modal-content {
+        padding: 1.5rem;
+        max-width: 400px;
+    }
+    
+    .test-modal-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .test-modal-content p {
+        font-size: 0.9rem;
+    }
+    
+    .test-modal-button {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
     }
 } 

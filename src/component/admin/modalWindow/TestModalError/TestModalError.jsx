@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ModalPortal from '../ModalPortal/ModalPortal';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import './TestModalError.css';
 
 const TestModalError = ({ isOpen, onClose }) => {
@@ -33,7 +34,7 @@ const TestModalError = ({ isOpen, onClose }) => {
 
     return (
         <ModalPortal isOpen={isOpen}>
-            <div className="test-modal-overlay">
+            <ModalOverlay isOpen={isOpen} onClose={onClose}>
                 <div className="test-modal-content">
                     <h3>🧪 Тест ErrorBoundary в модальном окне</h3>
                     <p>Нажмите на кнопки ниже, чтобы протестировать ошибки в модальном окне:</p>
@@ -77,7 +78,7 @@ const TestModalError = ({ isOpen, onClose }) => {
                         </button>
                     </div>
                 </div>
-            </div>
+            </ModalOverlay>
         </ModalPortal>
     );
 };

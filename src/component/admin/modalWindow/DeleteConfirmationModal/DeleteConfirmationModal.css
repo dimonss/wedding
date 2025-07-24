@@ -1,18 +1,3 @@
-.delete-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(102, 126, 234, 0.2);
-    backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
 .delete-modal-content {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -26,6 +11,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     overflow-y: auto;
     position: relative;
+    animation: slideInUp 0.6s ease-out;
 }
 
 .delete-modal-content h3 {
@@ -37,6 +23,7 @@
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: -0.02em;
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .delete-modal-content p {
@@ -45,12 +32,14 @@
     font-size: 1.1rem;
     line-height: 1.6;
     font-weight: 500;
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .delete-modal-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .delete-modal-button {
@@ -65,6 +54,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'TT Travels', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .delete-modal-button::before {
@@ -78,7 +68,7 @@
     transition: left 0.5s;
 }
 
-.delete-modal-button:hover::before {
+.delete-modal-button:hover:not(:disabled)::before {
     left: 100%;
 }
 
@@ -88,7 +78,7 @@
     box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
 }
 
-.delete-modal-button.confirm:hover {
+.delete-modal-button.confirm:hover:not(:disabled) {
     background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
@@ -100,7 +90,7 @@
     box-shadow: 0 4px 15px rgba(160, 174, 192, 0.3);
 }
 
-.delete-modal-button.cancel:hover {
+.delete-modal-button.cancel:hover:not(:disabled) {
     background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(160, 174, 192, 0.4);
@@ -109,4 +99,54 @@
 .delete-modal-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    transform: none;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .delete-modal-content {
+        padding: 2rem;
+        min-width: 350px;
+    }
+    
+    .delete-modal-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .delete-modal-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .delete-modal-button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .delete-modal-content {
+        padding: 1.5rem;
+        min-width: 300px;
+    }
+    
+    .delete-modal-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .delete-modal-content p {
+        font-size: 1rem;
+    }
 } 

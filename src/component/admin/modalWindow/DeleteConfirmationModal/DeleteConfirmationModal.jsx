@@ -1,35 +1,34 @@
 import React from 'react';
-import Loader from '../../../loader/Loader';
-import { useModal } from '../../../../hook/useModal';
 import ModalPortal from '../ModalPortal/ModalPortal';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import './DeleteConfirmationModal.css';
 
 const DeleteConfirmationModal = ({isOpen, onClose, onConfirm, guestName, isDeleting}) => {
-    useModal(isOpen, onClose);
-
     return (
         <ModalPortal isOpen={isOpen}>
-            <div className="delete-modal-overlay">
+            <ModalOverlay isOpen={isOpen} onClose={onClose}>
                 <div className="delete-modal-content">
-                    <h3>Delete Guest</h3>
-                    <p>Are you sure you want to delete {guestName}?</p>
+                    <h3>Confirm Delete</h3>
+                    <p>Are you sure you want to delete guest <strong>{guestName}</strong>?</p>
+                    <p>This action cannot be undone.</p>
                     <div className="delete-modal-actions">
                         <button
                             className="delete-modal-button confirm"
                             onClick={onConfirm}
                             disabled={isDeleting}
                         >
-                            {isDeleting ? <Loader/> : 'Yes'}
+                            {isDeleting ? 'Deleting...' : 'Delete'}
                         </button>
                         <button
                             className="delete-modal-button cancel"
                             onClick={onClose}
+                            disabled={isDeleting}
                         >
-                            No
+                            Cancel
                         </button>
                     </div>
                 </div>
-            </div>
+            </ModalOverlay>
         </ModalPortal>
     );
 };
