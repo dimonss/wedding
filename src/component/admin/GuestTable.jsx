@@ -147,18 +147,18 @@ const GuestTable = ({credentials, onLogout}) => {
             />
             
             {showTestError && <TestError />}
-            
-            <SearchBar
-                searchTerm={searchTerm}
-                onSearchChange={handleSearchChange}
-                onClearSearch={handleClearSearch}
-            />
 
             <StatsSummary
                 stats={stats}
                 guestList={guestList}
                 filteredGuestList={filteredGuestList}
                 searchTerm={searchTerm}
+            />
+
+            <SearchBar
+                searchTerm={searchTerm}
+                onSearchChange={handleSearchChange}
+                onClearSearch={handleClearSearch}
             />
             
             <GuestTableComponent
