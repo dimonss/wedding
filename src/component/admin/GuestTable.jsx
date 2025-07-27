@@ -16,7 +16,7 @@ const GuestTable = ({credentials, onLogout}) => {
     const [testModalErrorOpen, setTestModalErrorOpen] = useState(false);
     
     const {guestList, loading, error, refetchGuestList, deleteGuest, updateGuest, createGuest} = useGuestList(credentials);
-    const {weddingInfo, loading: weddingLoading, error: weddingError, updateCoupleInfo, updateWeddingInfo} = useWeddingInfo(credentials);
+    const {weddingInfo, loading: weddingLoading, error: weddingError, updateAllWeddingInfo} = useWeddingInfo(credentials);
     
     // Custom hooks for state management
     const {
@@ -67,8 +67,7 @@ const GuestTable = ({credentials, onLogout}) => {
         deleteGuest,
         updateGuest,
         createGuest,
-        updateCoupleInfo,
-        updateWeddingInfo,
+        updateAllWeddingInfo,
         setDeleteModalOpen,
         setEditModalOpen,
         setCreateModalOpen,

@@ -4,8 +4,7 @@ export const useGuestActions = (
     deleteGuest,
     updateGuest,
     createGuest,
-    updateCoupleInfo,
-    updateWeddingInfo,
+    updateAllWeddingInfo,
     setDeleteModalOpen,
     setEditModalOpen,
     setCreateModalOpen,
@@ -60,29 +59,18 @@ export const useGuestActions = (
     const handleUpdateWeddingInfo = useCallback(async (formData) => {
         setIsUpdatingWedding(true);
         try {
-            const { coupleData, weddingData } = formData;
-            
-            // Update couple information
-            const coupleResult = await updateCoupleInfo(coupleData);
-            if (!coupleResult.success) {
-                console.error('Error updating couple information:', coupleResult.error);
-                return;
+            const result = await updateAllWeddingInfo(formData);
+            if (result.success) {
+                setWeddingModalOpen(false);
+            } else {
+                console.error('Error updating wedding information:', result.error);
             }
-            
-            // Update wedding information
-            const weddingResult = await updateWeddingInfo(weddingData);
-            if (!weddingResult.success) {
-                console.error('Error updating wedding information:', weddingResult.error);
-                return;
-            }
-            
-            setWeddingModalOpen(false);
         } catch (error) {
             console.error('Error updating wedding information:', error);
         } finally {
             setIsUpdatingWedding(false);
         }
-    }, [updateCoupleInfo, updateWeddingInfo, setWeddingModalOpen, setIsUpdatingWedding]);
+    }, [updateAllWeddingInfo, setWeddingModalOpen, setIsUpdatingWedding]);
 
     return {
         navigate,

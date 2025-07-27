@@ -86,8 +86,22 @@
 
 .form-group textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 60px;
     font-family: inherit;
+}
+
+/* Специальные стили для полей date и time */
+.form-group textarea[name="date"],
+.form-group textarea[name="time"] {
+    min-height: 60px;
+    max-height: 80px;
+}
+
+/* Стили для полей address и description */
+.form-group textarea[name="address"],
+.form-group textarea[name="description"] {
+    min-height: 80px;
+    max-height: 120px;
 }
 
 .form-group input:focus,

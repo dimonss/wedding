@@ -106,6 +106,36 @@ const useWeddingInfo = (credentials) => {
         }
     };
 
+    // Новый метод для обновления всех данных сразу
+    const updateAllWeddingInfo = async (formData) => {
+        if (!credentials) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            // Сначала обновляем couple info
+            const coupleResult = await updateCoupleInfo(formData.coupleData);
+            if (!coupleResult.success) {
+                return coupleResult;
+            }
+
+            // Затем обновляем wedding info
+            const weddingResult = await updateWeddingInfo(formData.weddingData);
+            if (!weddingResult.success) {
+                return weddingResult;
+            }
+
+            return { success: true, data: { ...coupleResult.data, ...weddingResult.data } };
+        } catch (err) {
+            const errorMsg = 'Network error: ' + err.message;
+            setError(errorMsg);
+            return { success: false, error: errorMsg };
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (credentials) {
             fetchWeddingInfo();
@@ -119,6 +149,7 @@ const useWeddingInfo = (credentials) => {
         fetchWeddingInfo,
         updateCoupleInfo,
         updateWeddingInfo,
+        updateAllWeddingInfo,
     };
 };
 

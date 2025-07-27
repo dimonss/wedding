@@ -5,8 +5,8 @@ import './WeddingInfoModal.css';
 
 const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}) => {
     const [formData, setFormData] = useState({
-        groomName: '',
-        brideName: '',
+        husbands_name: '',
+        wifes_name: '',
         date: '',
         time: '',
         address: '',
@@ -16,8 +16,8 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
     useEffect(() => {
         if (weddingInfo) {
             setFormData({
-                groomName: weddingInfo.groomName || '',
-                brideName: weddingInfo.brideName || '',
+                husbands_name: weddingInfo.husbands_name || '',
+                wifes_name: weddingInfo.wifes_name || '',
                 date: weddingInfo.date || '',
                 time: weddingInfo.time || '',
                 address: weddingInfo.address || '',
@@ -36,7 +36,21 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        
+        // Разделяем данные на couple и wedding для отправки на разные endpoints
+        const coupleData = {
+            husbands_name: formData.husbands_name,
+            wifes_name: formData.wifes_name
+        };
+        
+        const weddingData = {
+            date: formData.date,
+            time: formData.time,
+            address: formData.address
+        };
+        
+        // Отправляем данные через onSubmit
+        onSubmit({ coupleData, weddingData });
     };
 
     return (
@@ -48,25 +62,25 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
                         <div className="form-section">
                             <h4>Couple Information</h4>
                             <div className="form-group">
-                                <label htmlFor="groomName">Groom Name</label>
+                                <label htmlFor="husbands_name">Husband's Name</label>
                                 <input
                                     type="text"
-                                    id="groomName"
-                                    name="groomName"
-                                    value={formData.groomName}
+                                    id="husbands_name"
+                                    name="husbands_name"
+                                    value={formData.husbands_name}
                                     onChange={handleChange}
-                                    placeholder="Enter groom's name"
+                                    placeholder="Enter husband's name"
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="brideName">Bride Name</label>
+                                <label htmlFor="wifes_name">Wife's Name</label>
                                 <input
                                     type="text"
-                                    id="brideName"
-                                    name="brideName"
-                                    value={formData.brideName}
+                                    id="wifes_name"
+                                    name="wifes_name"
+                                    value={formData.wifes_name}
                                     onChange={handleChange}
-                                    placeholder="Enter bride's name"
+                                    placeholder="Enter wife's name"
                                 />
                             </div>
                         </div>
@@ -75,22 +89,24 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
                             <h4>Wedding Details</h4>
                             <div className="form-group">
                                 <label htmlFor="date">Date</label>
-                                <input
-                                    type="date"
+                                <textarea
                                     id="date"
                                     name="date"
                                     value={formData.date}
                                     onChange={handleChange}
+                                    placeholder="Enter wedding date (e.g., 14 - го июня 2025 года)"
+                                    rows="2"
                                 />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="time">Time</label>
-                                <input
-                                    type="time"
+                                <textarea
                                     id="time"
                                     name="time"
                                     value={formData.time}
                                     onChange={handleChange}
+                                    placeholder="Enter wedding time (e.g., 16:30—17:30 сбор гостей)"
+                                    rows="2"
                                 />
                             </div>
                             <div className="form-group">
@@ -101,6 +117,7 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
                                     value={formData.address}
                                     onChange={handleChange}
                                     placeholder="Enter wedding venue address"
+                                    rows="3"
                                 />
                             </div>
                             <div className="form-group">
@@ -111,6 +128,7 @@ const WeddingInfoModal = ({isOpen, onClose, onSubmit, isSubmitting, weddingInfo}
                                     value={formData.description}
                                     onChange={handleChange}
                                     placeholder="Enter wedding description"
+                                    rows="3"
                                 />
                             </div>
                         </div>
