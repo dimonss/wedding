@@ -42,7 +42,7 @@ function App() {
         return (
             <div className="app-container admin-mode">
                 <div className="admin-panel">
-                    <div className="admin-header">
+                    <div className="admin-header-main-title">
                         <h1 className="admin-title">Wedding Admin Panel</h1>
                     </div>
                     <GuestTable 

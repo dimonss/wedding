@@ -39,34 +39,6 @@
     border-bottom: none;
 }
 
-.status {
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    display: inline-block;
-    text-align: center;
-    min-width: 80px;
-}
-
-.status.accepted {
-    background: rgba(72, 187, 120, 0.1);
-    color: var(--success-color);
-    border: 1px solid rgba(72, 187, 120, 0.2);
-}
-
-.status.rejected {
-    background: rgba(245, 101, 101, 0.1);
-    color: var(--danger-color);
-    border: 1px solid rgba(245, 101, 101, 0.2);
-}
-
-.status.pending {
-    background: rgba(237, 137, 54, 0.1);
-    color: var(--warning-color);
-    border: 1px solid rgba(237, 137, 54, 0.2);
-}
-
 .actions-cell {
     display: flex;
     gap: 8px;
@@ -198,4 +170,12 @@
         padding: 6px 12px;
         font-size: 12px;
     }
-} 
+    .delete-button {
+        margin-left: 8px;
+    }
+}
+@media (max-width: 576px) {
+    .delete-button {
+        margin-top: 8px;
+    }
+}

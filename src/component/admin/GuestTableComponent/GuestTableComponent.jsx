@@ -29,7 +29,7 @@ const GuestTableComponent = ({
                     {filteredGuestList.map((guest) => (
                         <tr key={guest.uuid} onClick={() => onNavigate(guest.uuid)}>
                             <td data-label="Name">{guest.fullName}</td>
-                            <td data-label="Status" className={`status ${guest.status}`}>
+                            <td data-label="Status" className={`status`}>
                                 {guest.respStatus === null ? '⏳ Pending' :
                                     guest.respStatus ? '✅ Attending' : '❌ Not'}
                             </td>
