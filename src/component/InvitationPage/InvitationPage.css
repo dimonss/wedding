@@ -23,6 +23,24 @@
     box-sizing: border-box;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    h1 {
+        margin: 0;
+        font-family: Viaoda Libre, sans-serif;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 48px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    a {
+        white-space: pre-line;
+    }
+}
+
 .header__mobile h1 {
     display: none;
 }
