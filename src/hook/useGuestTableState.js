@@ -25,28 +25,40 @@ export const useGuestTableState = (guestList) => {
     const [isCreating, setIsCreating] = useState(false);
     const [isUpdatingWedding, setIsUpdatingWedding] = useState(false);
     
-    // Search state
+    // Search and filter states
     const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
 
     // Filtered guest list
     const filteredGuestList = useMemo(() => {
         if (!guestList) return [];
-        if (!searchTerm.trim()) return guestList;
         
-        const searchLower = searchTerm.toLowerCase();
-        return guestList.filter(guest => 
-            guest.fullName?.toLowerCase().includes(searchLower) ||
-            guest.uuid?.toLowerCase().includes(searchLower)
-        );
-    }, [guestList, searchTerm]);
+        let filtered = guestList;
+        
+        // Apply status filter
+        if (statusFilter !== 'all') {
+            filtered = filtered.filter(guest => guest.respStatus === statusFilter);
+        }
+        
+        // Apply search filter
+        if (searchTerm.trim()) {
+            const searchLower = searchTerm.toLowerCase();
+            filtered = filtered.filter(guest => 
+                guest.fullName?.toLowerCase().includes(searchLower) ||
+                guest.uuid?.toLowerCase().includes(searchLower)
+            );
+        }
+        
+        return filtered;
+    }, [guestList, searchTerm, statusFilter]);
 
-    // Stats calculation
-    const stats = useMemo(() => (filteredGuestList ? {
-        total: filteredGuestList.length,
-        approved: filteredGuestList.filter(guest => guest.respStatus === 1).length,
-        rejected: filteredGuestList.filter(guest => guest.respStatus === 0).length,
-        pending: filteredGuestList.filter(guest => guest.respStatus === null).length
-    } : DEFAULT_VALUES), [filteredGuestList]);
+    // Stats calculation - based on full guest list, not filtered
+    const stats = useMemo(() => (guestList ? {
+        total: guestList.length,
+        approved: guestList.filter(guest => guest.respStatus === 1).length,
+        rejected: guestList.filter(guest => guest.respStatus === 0).length,
+        pending: guestList.filter(guest => guest.respStatus === null).length
+    } : DEFAULT_VALUES), [guestList]);
 
     // Modal handlers
     const handleDeleteClick = useCallback((e, guest) => {
@@ -91,6 +103,11 @@ export const useGuestTableState = (guestList) => {
         setSearchTerm('');
     }, []);
 
+    // Status filter handlers
+    const handleStatusChange = useCallback((status) => {
+        setStatusFilter(status);
+    }, []);
+
     return {
         // States
         deleteModalOpen,
@@ -105,6 +122,7 @@ export const useGuestTableState = (guestList) => {
         isCreating,
         isUpdatingWedding,
         searchTerm,
+        statusFilter,
         filteredGuestList,
         stats,
         
@@ -130,6 +148,7 @@ export const useGuestTableState = (guestList) => {
         handleLogoutClose,
         handleLogoutConfirm,
         handleSearchChange,
-        handleClearSearch
+        handleClearSearch,
+        handleStatusChange
     };
 }; 

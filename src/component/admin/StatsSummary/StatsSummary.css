@@ -54,14 +54,27 @@
     color: var(--warning-color);
 }
 
-.search-results-info {
-    background-color: #e3f2fd;
-    color: #1976d2;
-    padding: 8px 16px;
-    border-radius: 6px;
-    margin-bottom: 15px;
+.filter-results-info {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+    color: #6b21a8;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     font-size: 14px;
     text-align: center;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    backdrop-filter: blur(5px);
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.filter-info-main {
+    font-weight: 600;
+}
+
+.filter-info {
+    font-weight: 500;
+    margin-left: 8px;
+    opacity: 0.9;
 }
 
 /* Responsive styles */
@@ -86,5 +99,10 @@
 
     .stat-value {
         font-size: 1.5rem;
+    }
+    
+    .filter-results-info {
+        padding: 10px 16px;
+        font-size: 13px;
     }
 } 

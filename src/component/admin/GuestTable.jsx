@@ -10,6 +10,7 @@ import StatsSummary from './StatsSummary/StatsSummary';
 import GuestTableComponent from './GuestTableComponent/GuestTableComponent';
 import ModalContainer from './ModalContainer/ModalContainer';
 import TestError from '../TestError/TestError';
+import StatusFilter from './StatusFilter/StatusFilter';
 
 const GuestTable = ({credentials, onLogout}) => {
     const [showTestError, setShowTestError] = useState(false);
@@ -32,6 +33,7 @@ const GuestTable = ({credentials, onLogout}) => {
         isCreating,
         isUpdatingWedding,
         searchTerm,
+        statusFilter,
         filteredGuestList,
         stats,
         setDeleteModalOpen,
@@ -53,7 +55,8 @@ const GuestTable = ({credentials, onLogout}) => {
         handleLogoutClose,
         handleLogoutConfirm,
         handleSearchChange,
-        handleClearSearch
+        handleClearSearch,
+        handleStatusChange
     } = useGuestTableState(guestList);
     
     // Custom hook for guest actions
@@ -152,6 +155,14 @@ const GuestTable = ({credentials, onLogout}) => {
                 guestList={guestList}
                 filteredGuestList={filteredGuestList}
                 searchTerm={searchTerm}
+                statusFilter={statusFilter}
+            />
+
+
+            
+            <StatusFilter
+                selectedStatus={statusFilter}
+                onStatusChange={handleStatusChange}
             />
 
             <SearchBar
