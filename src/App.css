@@ -80,6 +80,7 @@ a {
 /* Loader component styles remain unchanged */
 
 select, option {
+    color: #000;
     -webkit-appearance: none;
     appearance: none;
 }
