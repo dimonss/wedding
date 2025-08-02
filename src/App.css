@@ -78,3 +78,8 @@ a {
 }
 
 /* Loader component styles remain unchanged */
+
+select, option {
+    -webkit-appearance: none;
+    appearance: none;
+}
