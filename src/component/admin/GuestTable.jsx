@@ -146,6 +146,8 @@ const GuestTable = ({credentials, onLogout}) => {
                 isUpdatingWedding={isUpdatingWedding}
                 weddingLoading={weddingLoading}
                 loading={loading}
+                credentials={credentials}
+                onRefresh={refetchGuestList}
             />
             
             {showTestError && <TestError />}

@@ -1,5 +1,6 @@
 import React from 'react';
 import './AdminHeader.css';
+import ExcelActions from '../ExcelActions/ExcelActions';
 
 const AdminHeader = ({
                          onCreateClick,
@@ -11,7 +12,9 @@ const AdminHeader = ({
                          isCreating,
                          isUpdatingWedding,
                          weddingLoading,
-                         loading
+                         loading,
+                         credentials,
+                         onRefresh
                      }) => {
     return (
         <div className="admin-header">
@@ -51,6 +54,12 @@ const AdminHeader = ({
                     Logout
                 </button>
             </div>
+            
+            {/* Excel Import/Export Actions */}
+            <ExcelActions 
+                credentials={credentials}
+                onRefresh={onRefresh}
+            />
         </div>
     );
 };
