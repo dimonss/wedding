@@ -27,6 +27,7 @@
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     background: white;
+    cursor: pointer;
 }
 
 .stat-label {
